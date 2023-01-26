@@ -9,6 +9,7 @@ public class Journal
     }
     public void MainMenu()
     {
+        FileManagement mainFile = new FileManagement();
         int selection = 0;
         Entry mainEntries = new Entry();
         do
@@ -26,6 +27,20 @@ public class Journal
                 {
                     Console.WriteLine(entry);
                 }
+            }
+            else if (selection == 3)
+            {
+                Console.WriteLine("Please enter the name of your file with extension .txt");
+                mainFile._fileName = Console.ReadLine();
+                mainFile.LoadFile();
+                mainEntries._answersFromPrompt = mainFile._listManagement ;
+            }
+            else if (selection == 4)
+            {
+                Console.WriteLine("Please enter the name of your file with extension .txt");
+                mainFile._fileName = Console.ReadLine();
+                mainFile._listManagement = mainEntries._answersFromPrompt;
+                mainFile.SaveFile();
             }
 
 
