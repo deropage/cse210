@@ -15,7 +15,7 @@ public class PromptGenerator
         List<string> mainList = new List<string>();
         Random rndQuestion = new Random();
 
-        mainList.Add("Who was the most interesting conversation you had today?");
+        mainList.Add("Who was the most interesting conversation you had today?"); //Creation of the main List of questions.
         mainList.Add("What was the best part of my day?");
         mainList.Add("How did I see the hand of the Lord in my life today?");
         mainList.Add("What was the stronger emotion I felt today?");
@@ -28,7 +28,7 @@ public class PromptGenerator
 
         while (_trackIndex.Count < 10)
         {
-            int index = rndQuestion.Next(10);
+            int index = rndQuestion.Next(10); //Randomize the order or the questions for each Entry
             if(!_trackIndex.Contains(index))
             {
                 _listOfQuestions.Add(mainList[index]);
@@ -36,10 +36,5 @@ public class PromptGenerator
             }
         }
     }
-    public void PrintQuestions()
-    {
-        foreach (var question in _listOfQuestions){
-            Console.WriteLine(question);
-        }
-    }
+
 }
