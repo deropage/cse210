@@ -3,8 +3,8 @@ using System;
 public class PromptGenerator
 {
     public List<string> _listOfQuestions = new List<string>();
-    public List<string> _questionsDone = new List<string>();
-
+    public List<int> _askedQuestions = new List<int>();
+    public List<int> _trackIndex = new List<int>();
     public PromptGenerator()
     {
 
@@ -17,8 +17,8 @@ public class PromptGenerator
 
         mainList.Add("Who was the most interesting conversation you had today?");
         mainList.Add("What was the best part of my day?");
-        mainList.Add("How did I see the hand of the Lord in my life today");
-        mainList.Add("What was the stronger emotion I felt today");
+        mainList.Add("How did I see the hand of the Lord in my life today?");
+        mainList.Add("What was the stronger emotion I felt today?");
         mainList.Add("If I had one thing I could do over today, what would it be?");
         mainList.Add("What did you achieve today?");
         mainList.Add("What places you were today?");
@@ -26,9 +26,20 @@ public class PromptGenerator
         mainList.Add("How did you connect with your loved ones today?");
         mainList.Add("Which questions you did not answer today?");
 
-        for (int counter = 0; counter < 9; counter++)
+        while (_trackIndex.Count < 10)
         {
-            _listOfQuestions.Add(mainList[rndQuestion.Next(10)]);
+            int index = rndQuestion.Next(10);
+            if(!_trackIndex.Contains(index))
+            {
+                _listOfQuestions.Add(mainList[index]);
+                _trackIndex.Add(index);
+            }
+        }
+    }
+    public void PrintQuestions()
+    {
+        foreach (var question in _listOfQuestions){
+            Console.WriteLine(question);
         }
     }
 }
