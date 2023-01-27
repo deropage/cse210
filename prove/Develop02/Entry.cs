@@ -19,7 +19,7 @@ public class Entry
             
             Console.WriteLine("There are no more questions for today\nDo you want to write something else? y/n");
             string moreEntries = Console.ReadLine();
-            if (moreEntries == "y")
+            if (moreEntries == "y") //In case that the user wants to add different entries when the prompts ends
             {
                 DateTime now = DateTime.Now;
                 string date = now.ToShortDateString();
@@ -31,17 +31,13 @@ public class Entry
         }
         else
         {
-
-
             DateTime now = DateTime.Now;
             string date = now.ToShortDateString();  
-            Console.WriteLine(mainPrompt._listOfQuestions[questionIndex]);
+            Console.WriteLine(mainPrompt._listOfQuestions[questionIndex]); //Asking a question from the randomized list
             string answer = Console.ReadLine();
             _answersFromPrompt.Add("Date: " + date + " - Prompt: " + mainPrompt._listOfQuestions[questionIndex] + "\n" + answer);
             mainPrompt._askedQuestions.Add(mainPrompt._listOfQuestions[questionIndex]);
-
             questionIndex++;
-            
 
         } 
 

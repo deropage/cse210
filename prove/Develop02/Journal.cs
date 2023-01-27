@@ -35,19 +35,19 @@ public class Journal
                 mainFile.LoadFile();
                 mainEntries._answersFromPrompt = mainFile._listManagement;
                 mainEntries.mainPrompt._askedQuestions = new List<string>(mainFile._promptTrack); //Copy the asked questions from the file to the asked questions of the program.
-                mainEntries.questionIndex = mainFile._promptTrack.Count;
+                mainEntries.questionIndex = mainFile._promptTrack.Count; // Getting the number of questions asked to keep track on the regular flow of the code
 
             }
             else if (selection == 4)
             {
                 Console.WriteLine("Please enter the name of your file with extension .txt");
                 mainFile._fileName = Console.ReadLine();
-                mainFile._listManagement = mainEntries._answersFromPrompt;
+                mainFile._listManagement = mainEntries._answersFromPrompt; //Copy the answers to the list that works with file management class
                 mainFile.SaveFile();
             }
 
 
-        } while (selection != 5);
+        } while (selection != 5); //if the user selects 5 the program ends
         
 
     }
