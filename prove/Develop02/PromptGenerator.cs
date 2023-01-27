@@ -3,7 +3,7 @@ using System;
 public class PromptGenerator
 {
     public List<string> _listOfQuestions = new List<string>();
-    public List<int> _askedQuestions = new List<int>();
+    public List<string> _askedQuestions = new List<string>(); //this was int
     public List<int> _trackIndex = new List<int>();
     public PromptGenerator()
     {

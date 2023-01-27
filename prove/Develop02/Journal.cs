@@ -33,7 +33,10 @@ public class Journal
                 Console.WriteLine("Please enter the name of your file with extension .txt");
                 mainFile._fileName = Console.ReadLine();
                 mainFile.LoadFile();
-                mainEntries._answersFromPrompt = mainFile._listManagement ;
+                mainEntries._answersFromPrompt = mainFile._listManagement;
+                mainEntries.mainPrompt._askedQuestions = new List<string>(mainFile._promptTrack); //Copy the asked questions from the file to the asked questions of the program.
+                mainEntries.questionIndex = mainFile._promptTrack.Count;
+
             }
             else if (selection == 4)
             {
