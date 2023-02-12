@@ -4,8 +4,9 @@ class Program
 {
     static void Main(string[] args)
     {
-        Reference reference = new Reference();
-        Scripture scripture = new Scripture(reference);
+        ScriptureManagement _list = new ScriptureManagement();
+        Reference reference = new Reference(_list.GetSelecterReference());
+        Scripture scripture = new Scripture(reference, _list.GetSelecterScripture());
 
     }
 

@@ -6,7 +6,7 @@ class Scripture
 
     private List<string> _words = new List<string>();
     private Word _word = new Word();
-    private string _content = "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.";
+    private string _content = "";
     private string _answer = "";
     private Random _rand = new Random();
     private int _index = 0;
@@ -18,12 +18,13 @@ class Scripture
     
   
 
-    public Scripture(Reference reference)
+    public Scripture(Reference reference, string scripture)
     {
+        _content = scripture;
         do
         {
-            Console.Write(reference.GetReference());                                     // Print Reference
-            ShowScripture();                                                             // Print Scripture
+
+            ShowScripture(reference);                                                             // Print Scripture
             Console.WriteLine("Press enter to continue or type 'quit' to finish:");      // Ask user for input   
             _answer = Console.ReadLine();                                                // Receive the answer
             if(_changes == _words.Count && _words.Count > 0){_answer="quit";}            // check if the changes in list are completed
@@ -56,10 +57,11 @@ class Scripture
         _content = String.Join(" ", _words);                                            //Creating new string with changed words.
     }
 
-    private void ShowScripture()                                                        //method to show scripture
+    private void ShowScripture(Reference reference)                                                        //method to show scripture
     { 
-        Console.Clear();                                                                //Clear console
-        Console.WriteLine(_content);                                                    //Print Scripture
+        Console.Clear();                                                              //Clear console
+        Console.Write(reference.GetReference());                                                                
+        Console.WriteLine(" " + _content);                                                    //Print Scripture
     }
 
 

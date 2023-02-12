@@ -4,7 +4,7 @@ using System.IO;
 
 public class FileManagement
 {
-    public string _fileName = " ";
+    public string _fileName = "Scriptures.txt";
     public List<string> _listManagement = new List<string>();
     public List<string> _promptTrack = new List<string>();
     public FileManagement()
