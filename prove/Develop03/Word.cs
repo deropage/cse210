@@ -2,15 +2,24 @@ using System;
 
 class Word
 {
-    public string _word = "";
+    private string _word = "";
+
+    public Word ()
+    {
+    }
 
     public Word (string word)
     {
-        _word = word;
+        HideLetters(word);
     }
 
-    public void HideWord()
+    public string HideLetters(string word)
     {
-        _word = "_";
+        _word = word.Replace(word, new string('_',word.Length));
+        return _word;
+    }
+    public string GetWord ()
+    {
+        return _word;
     }
 }
