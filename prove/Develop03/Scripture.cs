@@ -34,34 +34,32 @@ class Scripture
 
     private void HideWords()                                                             //Hide Words method
     {
-        _words.Clear();
-        words = _content.Split(" ");
-        foreach (string word in words){_words.Add(word);}
-        _counter = 0;
-        while(_counter < 3 && _changes < _words.Count)
+        _words.Clear();                                                                  //Clear the list for each pass
+        words = _content.Split(" ");                                                     //Split scripture by words using the space as separator
+        foreach (string word in words){_words.Add(word);}                                //Load the elements of the array into a list
+        _counter = 0;                                                                    // Reset the counter of changes per enter
+        while(_counter < 3 && _changes < _words.Count)                                   // Will change 3 words each time of if there are less than 3 words will check for the changes done.
         {
-            _index = _rand.Next(_words.Count); 
-            if(_words[_index].Contains("_"))
+            _index = _rand.Next(_words.Count);                                           //Get new random number for index
+            if(_words[_index].Contains("_"))                                             // if the index of the list contains "_" will search for a new one
             {
                 _index = _rand.Next(_words.Count);
             }
             else
             {
-                _word = new Word(_words[_index]);
-                _words[_index] = _word.GetWord();
-                _counter++;
-                _changes++;
+                _word = new Word(_words[_index]);                                       //if the index do not have "_" will add the string to Word type variable
+                _words[_index] = _word.GetWord();                                       // Getting the word transformated
+                _counter++;                                                             // updating the times that have changed each time
+                _changes++;                                                             //Updating total changes
             }
-
         }
-
-        _content = String.Join(" ", _words);
+        _content = String.Join(" ", _words);                                            //Creating new string with changed words.
     }
 
-    private void ShowScripture()
-    {
-        Console.Clear();
-        Console.WriteLine(_content);
+    private void ShowScripture()                                                        //method to show scripture
+    { 
+        Console.Clear();                                                                //Clear console
+        Console.WriteLine(_content);                                                    //Print Scripture
     }
 
 

@@ -10,3 +10,4 @@ class Program
     }
 
 }
+// The program can change 3 by 3 words and only change those words that have not changed yet.
