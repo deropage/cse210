@@ -22,23 +22,17 @@ class Scripture
     {
         do
         {
-            
-            Console.Write(reference.GetReference());
-            ShowScripture();     
-            Console.WriteLine("Press enter to continue or type 'quit' to finish:");
-            
-            _answer = Console.ReadLine();
-            if(_changes == _words.Count && _words.Count > 0){_answer="quit";}
-            
-            HideWords();
-            
-  
+            Console.Write(reference.GetReference());                                     // Print Reference
+            ShowScripture();                                                             // Print Scripture
+            Console.WriteLine("Press enter to continue or type 'quit' to finish:");      // Ask user for input   
+            _answer = Console.ReadLine();                                                // Receive the answer
+            if(_changes == _words.Count && _words.Count > 0){_answer="quit";}            // check if the changes in list are completed
+            HideWords();                                                                 // if there are words to change or the answer is not enter hide words
 
-
-        } while (_answer != "quit");
+        } while (_answer != "quit");                                                     // Program will run while the answer is not quit
     }
 
-    private void HideWords()
+    private void HideWords()                                                             //Hide Words method
     {
         _words.Clear();
         words = _content.Split(" ");
@@ -58,7 +52,7 @@ class Scripture
                 _counter++;
                 _changes++;
             }
-            //Console.Write(_changes);
+
         }
 
         _content = String.Join(" ", _words);
@@ -66,7 +60,7 @@ class Scripture
 
     private void ShowScripture()
     {
-        //Console.Clear();
+        Console.Clear();
         Console.WriteLine(_content);
     }
 
