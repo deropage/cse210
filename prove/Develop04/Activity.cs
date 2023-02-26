@@ -11,7 +11,6 @@ class Activity
     private string _chosedTime;
     private int _chosedTimeNumber;
     private string _activityName;
-    private DateTime _currentTime;
 
     public Activity(){}
 
