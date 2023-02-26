@@ -11,6 +11,7 @@ class Activity
     private string _chosedTime;
     private int _chosedTimeNumber;
     private string _activityName;
+    private string _summaryComplete;
 
     public Activity(){}
 
@@ -86,6 +87,11 @@ class Activity
         return _activityName;
     }
 
+    public string GetSummary()
+    {
+        return _summaryComplete;
+    }
+
     public int GetSeconds()
     {
         Console.Write(_secondsQuestion);
@@ -121,6 +127,7 @@ class Activity
         Console.WriteLine($"{GetActivityName()} Summary");
         Console.WriteLine($"Total time in Seconds: {GetActivitySeconds()}.");
         Console.WriteLine($"Total times performing activity: {GetActivityTime()}.");
+        _summaryComplete = GetActivityName() + " Summary\nTotal time in Seconds: " + GetActivitySeconds() + "\nTotal times performing activity: " + GetActivityTime();
         
     }
     

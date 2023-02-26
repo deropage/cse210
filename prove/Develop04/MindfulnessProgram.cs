@@ -7,6 +7,7 @@ class MindfulnessProgram
     private BreathingActivity _breathActivity = new BreathingActivity();
     private ReflectionActivity _reflectionActivity = new ReflectionActivity();
     private ListingActivity _listingActivity = new ListingActivity();
+    private FileManagement _fileManagement = new FileManagement();
 
 
     public MindfulnessProgram ()
@@ -14,10 +15,10 @@ class MindfulnessProgram
         do
         {
             Console.Clear();
-            Console.WriteLine("Menu Options:\n 1. Start breathing activity\n 2. Start reflecting activity\n 3. Start listing activity\n 4. Activity Summary\n 5. Quit");
+            Console.WriteLine("Menu Options:\n 1. Start breathing activity\n 2. Start reflecting activity\n 3. Start listing activity\n 4. Activity Summary\n 5. Export Summary\n 6. Quit");
             _answer = Console.ReadLine();
             _numberAnswer=int.Parse(_answer);
-            if(_numberAnswer != 5)
+            if(_numberAnswer != 6)
             {
             
                 switch(_numberAnswer)
@@ -41,9 +42,18 @@ class MindfulnessProgram
                     Thread.Sleep(5000);
                     break;
 
+                    case 5:
+                    Console.WriteLine("Choose a file name for your file");
+                    _fileManagement.SetFileName(Console.ReadLine()+".txt");
+                    _fileManagement.SetSummarys(_breathActivity.GetSummary());
+                    _fileManagement.SetSummarys(_reflectionActivity.GetSummary());
+                    _fileManagement.SetSummarys(_listingActivity.GetSummary());
+                    _fileManagement.SaveFile();
+                    break;
+
                 }
             }
-        }while(_numberAnswer != 5);
+        }while(_numberAnswer != 6);
     }
 
 
