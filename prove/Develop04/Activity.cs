@@ -5,9 +5,13 @@ class Activity
     private int _time;
     private string _explanation;
     private string _finishMessage;
-    private string _secondsQuestion = "How long, in seconds, would you like for your session?";
-    string _chosedTime;
-    int _chosedTimeNumber;
+    private string _secondsQuestion = "How long, in seconds, would you like for your session? ";
+    private int _activitySeconds;
+    private int _activityTimes;
+    private string _chosedTime;
+    private int _chosedTimeNumber;
+    private string _activityName;
+    private DateTime _currentTime;
 
     public Activity(){}
 
@@ -43,8 +47,7 @@ class Activity
         return _finishMessage;
 
     }
-
-        public void SetTime(int time)
+    public void SetTime(int time)
     {
         _time = time;
     }
@@ -52,7 +55,36 @@ class Activity
     public int GetTime()
     {
         return _time;
+    }
 
+    public void SetActivityTime()
+    {
+        _activityTimes++;
+    }
+
+    public int GetActivityTime()
+    {
+        return _activityTimes;
+    }
+
+    public void SetActivitySeconds(int seconds)
+    {
+        _activitySeconds = _activitySeconds + seconds;
+    }
+
+    public int GetActivitySeconds()
+    {
+        return _activitySeconds;
+    }
+
+    public void SetActivityName(string name)
+    {
+        _activityName = name;
+    }
+
+    public string GetActivityName()
+    {
+        return _activityName;
     }
 
     public int GetSeconds()
@@ -66,7 +98,7 @@ class Activity
     {
         Console.Clear();
         Console.WriteLine("Get ready...");
-        for(int i = 0; i<5;i++)
+        for(int i = 0; i<4;i++)
         {
             Console.Write("/");
             Thread.Sleep(300);
@@ -82,10 +114,87 @@ class Activity
             Console.Write("\b \b");
             Console.Write("/");
             Console.Write("\b \b");
-
         }
+    }
 
+    public void ActivitySummary()
+    {
+        Console.WriteLine($"{GetActivityName()} Summary");
+        Console.WriteLine($"Total time in Seconds: {GetActivitySeconds()}.");
+        Console.WriteLine($"Total times performing activity: {GetActivityTime()}.");
+        
+    }
+    
+    public void FinishActivity()
+    {
+        Console.WriteLine("Well Done!\n");
+        for(int i = 0; i<4;i++)
+        {
+            Console.Write("/");
+            Thread.Sleep(300);
+            Console.Write("\b \b");
+            Console.Write("-");
+            Thread.Sleep(300);
+            Console.Write("\b \b");
+            Console.Write("\\");
+            Thread.Sleep(300);
+            Console.Write("\b \b");
+            Console.Write("|");
+            Thread.Sleep(300);
+            Console.Write("\b \b");
+            Console.Write("/");
+            Console.Write("\b \b");
+        }
+        Console.WriteLine($"{GetFinish()}");
+        for(int i = 0; i<4;i++)
+        {
+            Console.Write("/");
+            Thread.Sleep(300);
+            Console.Write("\b \b");
+            Console.Write("-");
+            Thread.Sleep(300);
+            Console.Write("\b \b");
+            Console.Write("\\");
+            Thread.Sleep(300);
+            Console.Write("\b \b");
+            Console.Write("|");
+            Thread.Sleep(300);
+            Console.Write("\b \b");
+            Console.Write("/");
+            Console.Write("\b \b");
+        }
+    
+    }
+    public void SetActivity(string activityname)
+    {
+        SetActivityName(activityname);
+        Console.Clear();
+        Console.WriteLine($"Welcome to the {GetActivityName()} Activity\n");
+        Console.WriteLine($"{GetExplanation()}\n");
+        SetTime(GetSeconds());
+        Ready();
 
+    }
+
+    public void BeginningCountdown()
+    {
+        Console.Write("You may begin in: ");
+        Console.Write("5");
+        Thread.Sleep(1000);
+        Console.Write("\b \b");
+        Console.Write("4");
+        Thread.Sleep(1000);
+        Console.Write("\b \b");
+        Console.Write("3");
+        Thread.Sleep(1000);
+        Console.Write("\b \b");
+        Console.Write("2");
+        Thread.Sleep(1000);
+        Console.Write("\b \b");
+        Console.Write("1");
+        Thread.Sleep(1000);
+        Console.WriteLine("\b \b");
+        Console.Clear();
     }
 
 
