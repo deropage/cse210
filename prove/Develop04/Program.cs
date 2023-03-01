@@ -4,9 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        MindfulnessProgram _mainProgram = new MindfulnessProgram();
-    
-        
+        MindfulnessProgram _mainProgram = new MindfulnessProgram(); //run main program
     }
 }
 // Summary of Activities.
