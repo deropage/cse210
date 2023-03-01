@@ -8,7 +8,6 @@ class Rectangle : Shape
 
     public Rectangle (string color, double length, double width):base(color)
     {
-        SetColor(color);
         _length = length;
         _width = width;
         SetName("Rectangle");

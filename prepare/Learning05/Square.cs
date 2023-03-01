@@ -6,7 +6,6 @@ class Square : Shape
 
     public Square (string color, double side):base( color)
     {
-        SetColor(color);
         _side = side;
         SetName("Square");
     }
