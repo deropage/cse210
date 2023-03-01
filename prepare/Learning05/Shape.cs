@@ -3,7 +3,8 @@ using System;
 class Shape
 {
     private string _color;
-    private double _area;
+    private string _shapeName;
+
 
     public Shape(string color)
     {
@@ -22,7 +23,21 @@ class Shape
 
     public virtual double GetArea()
     {
-        return _area;
+        return 0;
+    }
+
+    public string GetName()
+    {
+        return _shapeName;
+    }
+    public void SetName(string name)
+    {
+        _shapeName = name;
+    }
+
+    public void GetShapeInfo()
+    {
+        Console.WriteLine($"The Color of your {_shapeName} is {GetColor()} and its area is {GetArea()}");
     }
 
 }

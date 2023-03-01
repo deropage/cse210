@@ -8,6 +8,7 @@ class Square : Shape
     {
         SetColor(color);
         _side = side;
+        SetName("Square");
     }
 
     public override double GetArea()

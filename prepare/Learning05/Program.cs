@@ -4,7 +4,13 @@ class Program
 {
     static void Main(string[] args)
     {
-        Square _mySquare = new Square("Red",20);
-        Console.Write($"The Color of your square is {_mySquare.GetColor()} and its area is {_mySquare.GetArea()}");
+        Console.Clear();
+        Square _mySquare = new Square("Red", 20);
+        Circle _myCircle = new Circle("Blue", 15);
+        Rectangle _myRectangle = new Rectangle("Green", 15, 20);
+
+        _mySquare.GetShapeInfo();
+        _myCircle.GetShapeInfo();
+        _myRectangle.GetShapeInfo();
     }
 }
