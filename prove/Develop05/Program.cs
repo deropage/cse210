@@ -6,4 +6,6 @@ class Program
     {
         GamificationProgram _mainProgram = new GamificationProgram(); //run main program
     }
+    // Identify if a goal was completed before register it.
+    // Cleaning console and use of press enter to continue for better experience.
 }

@@ -45,4 +45,13 @@ class ChecklistGoal : Goal
         else{ SetStatusOfGoalPrint(" ");}
         Console.WriteLine($"[{GetStatusOfGoalPrint()}] {GetNameOfGoal()} ({GetDescription()}) -- Currently complete: {_timesAcomplished}/{_timesToAcomplish}");
     }
+
+    public override void RecordEvent()
+    {
+        SetTimesAcomplished();
+        if(GetTimesAcomplished() == GetTimesToAcomplish())
+        {
+            SetStatusOfGoal(true);
+        }
+    }
 }

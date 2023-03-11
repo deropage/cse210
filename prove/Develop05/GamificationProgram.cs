@@ -2,7 +2,7 @@ using System;
 
 class GamificationProgram
 {
-    private List<Goal> _lisfOfGoals = new List<Goal>();
+    private List<Goal> _listOfGoals = new List<Goal>();
     private int _totalPoints;
     private string _nameOfGoalProg;
     private string _descriptionProg;
@@ -19,6 +19,9 @@ class GamificationProgram
     private string _goalAnswer;
     private string _continue;
     private int _counter = 1;
+    private int _counterEvent = 1;
+    private string _acomplishAnswerString;
+    private int _acomplishAnswer;
     private FileManagement _fileManament = new FileManagement();
 
     //
@@ -41,7 +44,7 @@ class GamificationProgram
                     break;
 
                     case 2:
-                    if (!_lisfOfGoals.Any())
+                    if (!_listOfGoals.Any())
                     {
                         Console.WriteLine("You do not have any goal so far, please load a file or create new Goals\nPress Enter to Continue");
                         _continue = Console.ReadLine();
@@ -49,7 +52,7 @@ class GamificationProgram
                     else
                     {
                         _counter=1;
-                        foreach (Goal goal in _lisfOfGoals)
+                        foreach (Goal goal in _listOfGoals)
                         {
                             Console.Write($"{_counter}. ");
                             goal.ShowGoal();
@@ -67,6 +70,7 @@ class GamificationProgram
                     
                     break;
                     case 5:
+                    RecordEvents();
                     
                     break;
 
@@ -101,19 +105,49 @@ class GamificationProgram
         {
             case 1:
             SimpleGoal _mySimpleGoal = new SimpleGoal(_nameOfGoalProg, _descriptionProg, _pointsToEarnProg);
-            _lisfOfGoals.Add(_mySimpleGoal);
+            _listOfGoals.Add(_mySimpleGoal);
             break;
 
             case 2:
             EternalGoal _myEternalGoal = new EternalGoal(_nameOfGoalProg, _descriptionProg, _pointsToEarnProg);
-            _lisfOfGoals.Add(_myEternalGoal);
+            _listOfGoals.Add(_myEternalGoal);
             break;
 
             case 3:
             ChecklistGoal _myChecklistGoal = new ChecklistGoal(_nameOfGoalProg, _descriptionProg, _pointsToEarnProg, _timesToAcomplish, _bonusPoints);
-            _lisfOfGoals.Add(_myChecklistGoal);
+            _listOfGoals.Add(_myChecklistGoal);
             break;
         }
             
+    }
+
+    public void RecordEvents()
+    {
+        _counterEvent = 1;
+        Console.WriteLine("The Goals are:");
+        foreach(Goal goal in _listOfGoals)
+        {
+            Console.WriteLine($"{_counterEvent}.- {goal.GetNameOfGoal()}");
+            _counterEvent++;
+        }
+        Console.Write("Which Goal did you Accomplish? ");
+        _acomplishAnswerString = Console.ReadLine();
+        _acomplishAnswer = int.Parse(_acomplishAnswerString);
+        if(_listOfGoals[_acomplishAnswer-1].GetStatusOfGoal())
+        {
+            Console.WriteLine("You Already Completed this goal\nPress Enter to Continue"); 
+            _continue = Console.ReadLine();   
+        }
+        else
+        {
+            _listOfGoals[_acomplishAnswer-1].RecordEvent();
+            Console.WriteLine($"Congratulations! You have earned {_listOfGoals[_acomplishAnswer-1].GetPointsToEarn()} points!\nPress Enter to Continue");
+            _totalPoints = _totalPoints + _listOfGoals[_acomplishAnswer-1].GetPointsToEarn();
+            _continue = Console.ReadLine();  
+        }
+        
+        
+
+
     }
 }

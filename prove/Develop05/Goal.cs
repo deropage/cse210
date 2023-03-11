@@ -64,5 +64,6 @@ public abstract class Goal
     }
 
     public abstract void ShowGoal();
+    public abstract void RecordEvent();
 
 }

@@ -14,5 +14,10 @@ class SimpleGoal : Goal
         else{ SetStatusOfGoalPrint(" ");}
         Console.WriteLine($"[{GetStatusOfGoalPrint()}] {GetNameOfGoal()} ({GetDescription()})");
     }
+
+    public override void RecordEvent()
+    {
+        SetStatusOfGoal(true);
+    }
     
 }
