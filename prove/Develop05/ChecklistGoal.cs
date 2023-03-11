@@ -23,4 +23,11 @@ class ChecklistGoal : Goal
             SetStatusOfGoal(true);
         }
     }
+    public override string GenerateSaveString()
+    {
+        SetSaveString( $"{GetTypeOfGoal()}:{GetNameOfGoal()}:{GetDescription()}:{GetPointsToEarn()}:{GetStatusOfGoal()}:{GetBonusPoints()}:{GetTimesToAcomplish()}:{GetTimesAcomplished()}");
+        return GetSaveString();
+    }
+
+    
 }

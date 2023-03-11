@@ -10,10 +10,14 @@ class SimpleGoal : Goal
         else{ SetStatusOfGoalPrint(" ");}
         Console.WriteLine($"[{GetStatusOfGoalPrint()}] {GetNameOfGoal()} ({GetDescription()})");
     }
-
     public override void RecordEvent()
     {
         SetStatusOfGoal(true);
+    }
+    public override string GenerateSaveString()
+    {
+        SetSaveString( $"{GetTypeOfGoal()}:{GetNameOfGoal()}:{GetDescription()}:{GetPointsToEarn()}:{GetStatusOfGoal()}");
+        return GetSaveString();
     }
     
 }

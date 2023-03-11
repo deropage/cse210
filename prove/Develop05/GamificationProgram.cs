@@ -22,7 +22,7 @@ class GamificationProgram
     private int _counterEvent = 1;
     private string _acomplishAnswerString;
     private int _acomplishAnswer;
-    private FileManagement _fileManament = new FileManagement();
+    private FileManagement _fileManagement = new FileManagement();
     private List<string> _conversionList = new List<string>();
     
     public GamificationProgram()
@@ -63,6 +63,9 @@ class GamificationProgram
 
                     case 3:
                     ConvertGoals();
+                    Console.Write("What is the filename for the goal file, include the .txt extension at the end");
+                    _fileManagement.SetFileName(Console.ReadLine());
+                    _fileManagement.SaveFile();
                     
                     break;
                     case 4:
@@ -144,21 +147,10 @@ class GamificationProgram
 
     public void ConvertGoals()
     {
-        _conversionList.Clear();
+        _fileManagement.ClearList();
         foreach (Goal goal in _listOfGoals)
         {
-            if(goal.GetTypeOfGoal() == "SimpleGoal")
-            {
-                _conversionList.Add($"{goal.GetTypeOfGoal()}:{goal.GetNameOfGoal()}:{goal.GetPointsToEarn()}:{goal.GetStatusOfGoal()}");
-            }
-            else if(goal.GetTypeOfGoal() == "EternalGoal")
-            {
-                _conversionList.Add($"{goal.GetTypeOfGoal()}:{goal.GetNameOfGoal()}:{goal.GetPointsToEarn()}");
-            }
-            else if (goal.GetTypeOfGoal() == "ChecklistGoal")
-            {
-                _conversionList.Add($"{goal.GetTypeOfGoal()}:{goal.GetNameOfGoal()}:{goal.GetPointsToEarn()}:{goal.GetStatusOfGoal()}:{goal.GetBonusPoints}:{goal.GetTimesToAcomplish}:{goal.GetTimesAcomplished}");
-            }
+            _fileManagement.SetGoals(goal.GenerateSaveString());
         }
     }
 }

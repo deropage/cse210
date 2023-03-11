@@ -12,5 +12,10 @@ class EternalGoal : Goal
     public override void RecordEvent()
     {
     }
+    public override string GenerateSaveString()
+    {
+        SetSaveString( $"{GetTypeOfGoal()}:{GetNameOfGoal()}:{GetDescription()}:{GetPointsToEarn()}");
+        return GetSaveString();
+    }
     
 }
