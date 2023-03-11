@@ -11,11 +11,14 @@ class EternalGoal : Goal
     }
     public override void RecordEvent()
     {
+        SetTimesAcomplishedValue(GetTimesAcomplished() + 1);
+        SetTotalPoints(GetPointsToEarn()*GetTimesAcomplished());
     }
     public override string GenerateSaveString()
     {
-        SetSaveString( $"{GetTypeOfGoal()}:{GetNameOfGoal()}:{GetDescription()}:{GetPointsToEarn()}");
+        SetSaveString( $"{GetTypeOfGoal()}:{GetNameOfGoal()}:{GetDescription()}:{GetPointsToEarn()}:{GetTimesAcomplished()}");
         return GetSaveString();
     }
+
     
 }

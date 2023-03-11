@@ -18,9 +18,15 @@ class ChecklistGoal : Goal
     public override void RecordEvent()
     {
         SetTimesAcomplished();
+        
         if(GetTimesAcomplished() == GetTimesToAcomplish())
         {
             SetStatusOfGoal(true);
+            SetTotalPoints((GetPointsToEarn()*GetTimesToAcomplish())+GetBonusPoints());
+        }
+        else
+        {
+            SetTotalPoints(GetPointsToEarn()*GetTimesAcomplished());
         }
     }
     public override string GenerateSaveString()
@@ -28,6 +34,8 @@ class ChecklistGoal : Goal
         SetSaveString( $"{GetTypeOfGoal()}:{GetNameOfGoal()}:{GetDescription()}:{GetPointsToEarn()}:{GetStatusOfGoal()}:{GetBonusPoints()}:{GetTimesToAcomplish()}:{GetTimesAcomplished()}");
         return GetSaveString();
     }
+
+
 
     
 }

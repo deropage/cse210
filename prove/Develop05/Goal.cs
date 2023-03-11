@@ -12,6 +12,8 @@ public abstract class Goal
     private int _timesAcomplished;
     private int _bonusPoints;
     private string _saveString;
+    private int _totalPointsGoal;
+    
     
     public Goal(){}
     public Goal(string nameOfGoal, string description, int pointsToEarn)
@@ -19,7 +21,6 @@ public abstract class Goal
         SetNameOfGoal(nameOfGoal);
         SetDescription(description);
         SetPointsToEarn(pointsToEarn);
-
     }
     public void SetNameOfGoal(string name){_nameOfGoal = name;}
     public string GetNameOfGoal(){return _nameOfGoal;}
@@ -38,11 +39,13 @@ public abstract class Goal
     public void SetTimesToAcomplish(int timesTo){_timesToAcomplish = timesTo;}
     public int GetTimesToAcomplish(){return _timesToAcomplish;}
     public void SetTimesAcomplished(){_timesAcomplished ++;}
+    public void SetTimesAcomplishedValue(int times){_timesAcomplished = times;}
     public int GetTimesAcomplished(){return _timesAcomplished;}
     public void SetBonusPoints(int bonus){_bonusPoints = bonus;}
     public int GetBonusPoints(){return _bonusPoints;}
+    public void SetTotalPoints(int points){_totalPointsGoal = points;}
+    public int GetTotalPoints(){return _totalPointsGoal;}
     public abstract void ShowGoal();
     public abstract void RecordEvent();
     public abstract string GenerateSaveString();
-
 }

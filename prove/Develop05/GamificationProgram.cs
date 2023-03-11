@@ -12,7 +12,6 @@ class GamificationProgram
     private int _bonusPoints;
     private string _timesToAcomplishString;
     private int _timesToAcomplish;
-    private bool _statusOfGoal;
     private int _typeOfGoal;
     private string _optionAnswer;
     private int _optionAnswerNumber;
@@ -24,6 +23,11 @@ class GamificationProgram
     private int _acomplishAnswer;
     private FileManagement _fileManagement = new FileManagement();
     private List<string> _conversionList = new List<string>();
+    private List<string>_loadedList = new List<string>();
+    private List<string> _divideString = new List<string>();
+    SimpleGoal _mySimpleGoal;
+    EternalGoal _myEternalGoal;
+    ChecklistGoal _myChecklistGoal;
     
     public GamificationProgram()
     {
@@ -63,13 +67,43 @@ class GamificationProgram
 
                     case 3:
                     ConvertGoals();
-                    Console.Write("What is the filename for the goal file, include the .txt extension at the end");
+                    Console.Write("What is the filename for the goal file, include the .txt extension at the end ");
                     _fileManagement.SetFileName(Console.ReadLine());
                     _fileManagement.SaveFile();
                     
                     break;
                     case 4:
-                    
+                    Console.Write("What is the filename for the goal file, include the .txt extension at the end ");
+                    _fileManagement.LoadFile(Console.ReadLine());
+                    _loadedList = _fileManagement.GetLoaded();
+                    foreach(string goal in _loadedList)
+                    {
+                        _divideString = goal.Split(":").ToList();
+                        switch(_divideString[0])
+                        {
+                            case "EternalGoal":
+                            _myEternalGoal = new EternalGoal(_divideString[1], _divideString[2], int.Parse(_divideString[3]));
+                            _listOfGoals.Add(_myEternalGoal);
+                            break;
+
+                            case "SimpleGoal":
+                            _mySimpleGoal = new SimpleGoal(_divideString[1], _divideString[2], int.Parse(_divideString[3]));
+                            _mySimpleGoal.SetStatusOfGoal(bool.Parse(_divideString[4]));
+                            if(_mySimpleGoal.GetStatusOfGoal()){_mySimpleGoal.SetTotalPoints(_mySimpleGoal.GetPointsToEarn());}
+                            _listOfGoals.Add(_mySimpleGoal);
+                            break;
+
+                            case "ChecklistGoal":
+                            _myChecklistGoal = new ChecklistGoal(_divideString[1], _divideString[2], int.Parse(_divideString[3]), int.Parse(_divideString[6]), int.Parse(_divideString[5]));
+                            _myChecklistGoal.SetTimesAcomplishedValue(int.Parse(_divideString[7]));
+                            _myChecklistGoal.SetStatusOfGoal(bool.Parse(_divideString[4]));
+                            if(_myChecklistGoal.GetStatusOfGoal()){_myChecklistGoal.SetTotalPoints((_myChecklistGoal.GetBonusPoints()+(_myChecklistGoal.GetPointsToEarn()*_myChecklistGoal.GetTimesAcomplished())));}
+                            else{_myChecklistGoal.SetTotalPoints(_myChecklistGoal.GetPointsToEarn()*_myChecklistGoal.GetTimesAcomplished());}
+                            _listOfGoals.Add(_myChecklistGoal);
+                            break;
+                        }
+                        CalculateTotal();
+                    }
                     break;
 
                     case 5:
@@ -103,17 +137,17 @@ class GamificationProgram
         switch(_typeOfGoal)
         {
             case 1:
-            SimpleGoal _mySimpleGoal = new SimpleGoal(_nameOfGoalProg, _descriptionProg, _pointsToEarnProg);
+            _mySimpleGoal = new SimpleGoal(_nameOfGoalProg, _descriptionProg, _pointsToEarnProg);
             _listOfGoals.Add(_mySimpleGoal);
             break;
 
             case 2:
-            EternalGoal _myEternalGoal = new EternalGoal(_nameOfGoalProg, _descriptionProg, _pointsToEarnProg);
+            _myEternalGoal = new EternalGoal(_nameOfGoalProg, _descriptionProg, _pointsToEarnProg);
             _listOfGoals.Add(_myEternalGoal);
             break;
 
             case 3:
-            ChecklistGoal _myChecklistGoal = new ChecklistGoal(_nameOfGoalProg, _descriptionProg, _pointsToEarnProg, _timesToAcomplish, _bonusPoints);
+            _myChecklistGoal = new ChecklistGoal(_nameOfGoalProg, _descriptionProg, _pointsToEarnProg, _timesToAcomplish, _bonusPoints);
             _listOfGoals.Add(_myChecklistGoal);
             break;
         }
@@ -140,9 +174,13 @@ class GamificationProgram
         {
             _listOfGoals[_acomplishAnswer-1].RecordEvent();
             Console.WriteLine($"Congratulations! You have earned {_listOfGoals[_acomplishAnswer-1].GetPointsToEarn()} points!\nPress Enter to Continue");
-            _totalPoints = _totalPoints + _listOfGoals[_acomplishAnswer-1].GetPointsToEarn();
+            if(_listOfGoals[_acomplishAnswer-1].GetTimesAcomplished() == _listOfGoals[_acomplishAnswer-1].GetTimesToAcomplish() && _listOfGoals[_acomplishAnswer-1].GetStatusOfGoal())
+            {
+                Console.WriteLine($"You also won a bonus of {_listOfGoals[_acomplishAnswer-1].GetBonusPoints()}!");
+            }
             _continue = Console.ReadLine();  
         }
+        CalculateTotal();
     }
 
     public void ConvertGoals()
@@ -151,6 +189,15 @@ class GamificationProgram
         foreach (Goal goal in _listOfGoals)
         {
             _fileManagement.SetGoals(goal.GenerateSaveString());
+        }
+    }
+
+    public void CalculateTotal()
+    {
+        _totalPoints = 0;
+        foreach (Goal goalcount in _listOfGoals)
+        {
+            _totalPoints = _totalPoints + goalcount.GetTotalPoints();
         }
     }
 }
