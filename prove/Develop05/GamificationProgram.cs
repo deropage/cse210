@@ -23,9 +23,7 @@ class GamificationProgram
     private string _acomplishAnswerString;
     private int _acomplishAnswer;
     private FileManagement _fileManament = new FileManagement();
-
-    //
-   // private 
+    private List<string> _conversionList = new List<string>();
     
     public GamificationProgram()
     {
@@ -61,22 +59,21 @@ class GamificationProgram
                         Console.Write("Press Enter to Continue");
                         _continue = Console.ReadLine();
                     }
-                    
                     break;
+
                     case 3:
+                    ConvertGoals();
                     
                     break;
                     case 4:
                     
                     break;
+
                     case 5:
                     RecordEvents();
-                    
                     break;
-
                 }
             }
-
         }while (_optionAnswerNumber != 6);
     }
     public void CreateNewGoal()
@@ -100,7 +97,6 @@ class GamificationProgram
             _bonusPointsString = Console.ReadLine();
             _bonusPoints = int.Parse(_bonusPointsString);
         }
-
         switch(_typeOfGoal)
         {
             case 1:
@@ -118,7 +114,6 @@ class GamificationProgram
             _listOfGoals.Add(_myChecklistGoal);
             break;
         }
-            
     }
 
     public void RecordEvents()
@@ -145,9 +140,25 @@ class GamificationProgram
             _totalPoints = _totalPoints + _listOfGoals[_acomplishAnswer-1].GetPointsToEarn();
             _continue = Console.ReadLine();  
         }
-        
-        
+    }
 
-
+    public void ConvertGoals()
+    {
+        _conversionList.Clear();
+        foreach (Goal goal in _listOfGoals)
+        {
+            if(goal.GetTypeOfGoal() == "SimpleGoal")
+            {
+                _conversionList.Add($"{goal.GetTypeOfGoal()}:{goal.GetNameOfGoal()}:{goal.GetPointsToEarn()}:{goal.GetStatusOfGoal()}");
+            }
+            else if(goal.GetTypeOfGoal() == "EternalGoal")
+            {
+                _conversionList.Add($"{goal.GetTypeOfGoal()}:{goal.GetNameOfGoal()}:{goal.GetPointsToEarn()}");
+            }
+            else if (goal.GetTypeOfGoal() == "ChecklistGoal")
+            {
+                _conversionList.Add($"{goal.GetTypeOfGoal()}:{goal.GetNameOfGoal()}:{goal.GetPointsToEarn()}:{goal.GetStatusOfGoal()}:{goal.GetBonusPoints}:{goal.GetTimesToAcomplish}:{goal.GetTimesAcomplished}");
+            }
+        }
     }
 }

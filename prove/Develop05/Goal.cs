@@ -7,7 +7,10 @@ public abstract class Goal
     private int _pointsToEarn;
     private bool _statusOfGoal;
     private string _statusOfGoalPrint;
-    private int _typeOfGoal;
+    private string _typeOfGoal;
+    private int _timesToAcomplish;
+    private int _timesAcomplished;
+    private int _bonusPoints;
     
     public Goal(){}
     public Goal(string nameOfGoal, string description, int pointsToEarn)
@@ -17,52 +20,24 @@ public abstract class Goal
         SetPointsToEarn(pointsToEarn);
 
     }
-
-    public void SetNameOfGoal(string name)
-    {
-        _nameOfGoal = name;
-    }
-    public string GetNameOfGoal()
-    {
-        return _nameOfGoal;
-    }
-
-    public void SetDescription(string description)
-    {
-        _description = description;
-    }
-    public string GetDescription()
-    {
-        return _description;
-    }
-
-    public void SetPointsToEarn(int points)
-    {
-        _pointsToEarn = points;
-    }
-    public int GetPointsToEarn()
-    {
-        return _pointsToEarn;
-    }
-    public void SetStatusOfGoal(bool status)
-    {
-        _statusOfGoal = status;
-
-    }
-    public bool GetStatusOfGoal()
-    {
-        return _statusOfGoal;
-    }
-    public void SetStatusOfGoalPrint(string status)
-    {
-        _statusOfGoalPrint = status;
-
-    }
-    public string GetStatusOfGoalPrint()
-    {
-        return _statusOfGoalPrint;
-    }
-
+    public void SetNameOfGoal(string name){_nameOfGoal = name;}
+    public string GetNameOfGoal(){return _nameOfGoal;}
+    public void SetDescription(string description){_description = description;}
+    public string GetDescription(){return _description;}
+    public void SetPointsToEarn(int points){_pointsToEarn = points;}
+    public int GetPointsToEarn(){return _pointsToEarn;}
+    public void SetStatusOfGoal(bool status){_statusOfGoal = status;}
+    public bool GetStatusOfGoal(){return _statusOfGoal;}
+    public void SetStatusOfGoalPrint(string status){_statusOfGoalPrint = status;}
+    public string GetStatusOfGoalPrint(){return _statusOfGoalPrint;}
+    public void SetTypeOfGoal(string type){_typeOfGoal = type;}
+    public string GetTypeOfGoal(){return _typeOfGoal;}
+    public void SetTimesToAcomplish(int timesTo){_timesToAcomplish = timesTo;}
+    public int GetTimesToAcomplish(){return _timesToAcomplish;}
+    public void SetTimesAcomplished(){_timesAcomplished ++;}
+    public int GetTimesAcomplished(){return _timesAcomplished;}
+    public void SetBonusPoints(int bonus){_bonusPoints = bonus;}
+    public int GetBonusPoints(){return _bonusPoints;}
     public abstract void ShowGoal();
     public abstract void RecordEvent();
 
