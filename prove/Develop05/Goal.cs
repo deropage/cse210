@@ -2,5 +2,5 @@ using System;
 
 class Goal
 {
-
+    
 }
