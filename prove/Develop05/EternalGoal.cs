@@ -7,7 +7,7 @@ class EternalGoal : Goal
     {
         if(GetStatusOfGoal()){SetStatusOfGoalPrint("X");}
         else{ SetStatusOfGoalPrint(" ");}
-        Console.WriteLine($"[{GetStatusOfGoalPrint()}] {GetNameOfGoal()} ({GetDescription()})");
+        Console.WriteLine($"[{GetStatusOfGoalPrint()}] {GetNameOfGoal()} ({GetDescription()}) -- Times done: {GetTimesAcomplished()}");
     }
     public override void RecordEvent()
     {

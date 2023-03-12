@@ -83,6 +83,8 @@ class GamificationProgram
                         {
                             case "EternalGoal":
                             _myEternalGoal = new EternalGoal(_divideString[1], _divideString[2], int.Parse(_divideString[3]));
+                            _myEternalGoal.SetTimesAcomplishedValue(int.Parse(_divideString[4]));
+                            _myEternalGoal.SetTotalPoints(_myEternalGoal.GetPointsToEarn()*_myEternalGoal.GetTimesAcomplished());
                             _listOfGoals.Add(_myEternalGoal);
                             break;
 
