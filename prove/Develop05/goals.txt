@@ -1,3 +1,4 @@
 SimpleGoal:Go to the temple:Go to the temple at least once this week:100:True
 EternalGoal:pray:pray at least 3 times at day:150:2
 ChecklistGoal:Run:Run 3 times this month:200:False:300:3:2
+SimpleGoal:Get A grade:Get A Grade on this course:250:False

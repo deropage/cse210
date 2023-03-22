@@ -72,40 +72,13 @@ class GamificationProgram
                     _fileManagement.SaveFile();
                     
                     break;
+                    
                     case 4:
                     Console.Write("What is the filename for the goal file, include the .txt extension at the end ");
                     _fileManagement.LoadFile(Console.ReadLine());
                     _loadedList = _fileManagement.GetLoaded();
-                    foreach(string goal in _loadedList)
-                    {
-                        _divideString = goal.Split(":").ToList();
-                        switch(_divideString[0])
-                        {
-                            case "EternalGoal":
-                            _myEternalGoal = new EternalGoal(_divideString[1], _divideString[2], int.Parse(_divideString[3]));
-                            _myEternalGoal.SetTimesAcomplishedValue(int.Parse(_divideString[4]));
-                            _myEternalGoal.SetTotalPoints(_myEternalGoal.GetPointsToEarn()*_myEternalGoal.GetTimesAcomplished());
-                            _listOfGoals.Add(_myEternalGoal);
-                            break;
-
-                            case "SimpleGoal":
-                            _mySimpleGoal = new SimpleGoal(_divideString[1], _divideString[2], int.Parse(_divideString[3]));
-                            _mySimpleGoal.SetStatusOfGoal(bool.Parse(_divideString[4]));
-                            if(_mySimpleGoal.GetStatusOfGoal()){_mySimpleGoal.SetTotalPoints(_mySimpleGoal.GetPointsToEarn());}
-                            _listOfGoals.Add(_mySimpleGoal);
-                            break;
-
-                            case "ChecklistGoal":
-                            _myChecklistGoal = new ChecklistGoal(_divideString[1], _divideString[2], int.Parse(_divideString[3]), int.Parse(_divideString[6]), int.Parse(_divideString[5]));
-                            _myChecklistGoal.SetTimesAcomplishedValue(int.Parse(_divideString[7]));
-                            _myChecklistGoal.SetStatusOfGoal(bool.Parse(_divideString[4]));
-                            if(_myChecklistGoal.GetStatusOfGoal()){_myChecklistGoal.SetTotalPoints((_myChecklistGoal.GetBonusPoints()+(_myChecklistGoal.GetPointsToEarn()*_myChecklistGoal.GetTimesAcomplished())));}
-                            else{_myChecklistGoal.SetTotalPoints(_myChecklistGoal.GetPointsToEarn()*_myChecklistGoal.GetTimesAcomplished());}
-                            _listOfGoals.Add(_myChecklistGoal);
-                            break;
-                        }
-                        CalculateTotal();
-                    }
+                    LoadGoals(_loadedList);
+                    CalculateTotal();
                     break;
 
                     case 5:
@@ -201,5 +174,39 @@ class GamificationProgram
         {
             _totalPoints = _totalPoints + goalcount.GetTotalPoints();
         }
+    }
+
+    public void LoadGoals(List<string> loadlist)
+    {
+        foreach(string goal in loadlist)
+        {
+            _divideString = goal.Split(":").ToList();
+            switch(_divideString[0])
+            {
+                case "EternalGoal":
+                _myEternalGoal = new EternalGoal(_divideString[1], _divideString[2], int.Parse(_divideString[3]));
+                _myEternalGoal.SetTimesAcomplishedValue(int.Parse(_divideString[4]));
+                _myEternalGoal.SetTotalPoints(_myEternalGoal.GetPointsToEarn()*_myEternalGoal.GetTimesAcomplished());
+                _listOfGoals.Add(_myEternalGoal);
+                break;
+                
+                case "SimpleGoal":
+                _mySimpleGoal = new SimpleGoal(_divideString[1], _divideString[2], int.Parse(_divideString[3]));
+                _mySimpleGoal.SetStatusOfGoal(bool.Parse(_divideString[4]));
+                if(_mySimpleGoal.GetStatusOfGoal()){_mySimpleGoal.SetTotalPoints(_mySimpleGoal.GetPointsToEarn());}
+                _listOfGoals.Add(_mySimpleGoal);
+                break;
+                
+                case "ChecklistGoal":
+                _myChecklistGoal = new ChecklistGoal(_divideString[1], _divideString[2], int.Parse(_divideString[3]), int.Parse(_divideString[6]), int.Parse(_divideString[5]));
+                _myChecklistGoal.SetTimesAcomplishedValue(int.Parse(_divideString[7]));
+                _myChecklistGoal.SetStatusOfGoal(bool.Parse(_divideString[4]));
+                if(_myChecklistGoal.GetStatusOfGoal()){_myChecklistGoal.SetTotalPoints((_myChecklistGoal.GetBonusPoints()+(_myChecklistGoal.GetPointsToEarn()*_myChecklistGoal.GetTimesAcomplished())));}
+                else{_myChecklistGoal.SetTotalPoints(_myChecklistGoal.GetPointsToEarn()*_myChecklistGoal.GetTimesAcomplished());}
+                _listOfGoals.Add(_myChecklistGoal);
+                break;
+            }
+        }
+
     }
 }
