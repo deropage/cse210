@@ -4,6 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello FinalProject World!");
+        ExpenseTracker _mainProgram = new ExpenseTracker(); //run main program
     }
+
 }
