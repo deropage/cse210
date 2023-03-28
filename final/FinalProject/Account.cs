@@ -13,6 +13,7 @@ public abstract class Account
     private string _accountOwner;
     private string _description;
     private string _bank;
+    private string _readableStatus;
 
 
     public Account(){}
@@ -57,7 +58,10 @@ public abstract class Account
     }
     public void AccountSummary()
     {
-        
+        if(_status){_readableStatus = "Active";}
+        else{_readableStatus = "Inactive";}
+        FuseMovements();
+        Console.WriteLine($"Account Number: {_accountNumber}\nBank: {_bank}\nCutOff Date: {_cutOffDate} of each Month\nStatus: {_readableStatus}");
     }
 
     //Local Methods
