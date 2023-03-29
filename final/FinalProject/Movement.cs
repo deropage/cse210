@@ -6,7 +6,15 @@ class Movement
     private string _movementDate;
     private string _movementName;
     private string _movementDescription;
+    
     public Movement(){}
+    public Movement(double amount, string date, string name, string description)
+    {
+        SetMovementAmount(amount);
+        SetMovementDate(date);
+        SetMovementName(name);
+        SetMovementDescription(description);
+    }
 
     //Getters and Setters
     public double GetMovementAmount(){return _movementAmount;}

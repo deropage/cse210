@@ -29,8 +29,14 @@ class ExpenseTracker
     private CreditAccount _myCreditAccount;
     private SavingAccount _mySavingAccount;
     //Movementes variables
-    private double _expenseAmount;
-    private double _depositAmount;
+    private double _movementAmountMain;
+    private string _movementDateMain;
+    private string _movementNameMain;
+    private string _movementDescription;
+    private string _movementCompanyMain;
+    private string _movementOriginMain;
+    private int _listIndex;
+
 
 
     
@@ -212,14 +218,45 @@ class ExpenseTracker
         SimpleSummary();
         Console.WriteLine("Please Select your account to process the expense: ");
         _getFromConsole = Console.ReadLine();
-        _decisionMenu = int.Parse(_getFromConsole);
-        Console.WriteLine("Please Select your account to process the expense: ");
+        _listIndex = int.Parse(_getFromConsole);
+        Console.WriteLine("Enter the information of you Expense");
 
-
+        Console.WriteLine("Enter the amount of your expense: ");
+        _getFromConsole=Console.ReadLine();
+        _movementAmountMain = double.Parse(_getFromConsole);
+        Console.WriteLine("Enter the date of you expense (MM/DD/YYYY): ");
+        _movementDateMain = Console.ReadLine();
+        Console.WriteLine("Enter the name of your expense: ");
+        _movementNameMain = Console.ReadLine();
+        Console.WriteLine("Enter a description of your expense: ");
+        _movementDescription = Console.ReadLine();
+        Console.WriteLine("Enter where you did the expense: ");
+        _movementCompanyMain = Console.ReadLine();
+        _listOfAccounts[_listIndex].AddExpense(_movementAmountMain,_movementDateMain,_movementNameMain,_movementDescription,_movementCompanyMain);
 
     }
     private void RecordDeposit()
     {
+        Console.WriteLine("From your accounts: ");
+        SimpleSummary();
+        Console.WriteLine("Please Select your account to process the deposit: ");
+        _getFromConsole = Console.ReadLine();
+        _listIndex = int.Parse(_getFromConsole);
+        Console.WriteLine("Enter the information of you Deposit");
+
+        Console.WriteLine("Enter the amount of your deposit: ");
+        _getFromConsole=Console.ReadLine();
+        _movementAmountMain = double.Parse(_getFromConsole);
+        Console.WriteLine("Enter the date of you Deposit (MM/DD/YYYY): ");
+        _movementDateMain = Console.ReadLine();
+        Console.WriteLine("Enter the name of your deposit: ");
+        _movementNameMain = Console.ReadLine();
+        Console.WriteLine("Enter a description of your deposit: ");
+        _movementDescription = Console.ReadLine();
+        Console.WriteLine("Enter the origin of your deposit: ");
+        _movementOriginMain = Console.ReadLine();
+        _listOfAccounts[_listIndex].AddDeposit(_movementAmountMain,_movementDateMain,_movementNameMain,_movementDescription,_movementOriginMain);
+
 
     }
 }

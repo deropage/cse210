@@ -15,6 +15,8 @@ public abstract class Account
     private string _bank;
     private string _readableStatus;
     private string _accountType;
+    private ExpenseMovement _newExpense;
+    private DepositMovement _newDeposit;
 
 
     public Account(){}
@@ -77,6 +79,18 @@ public abstract class Account
         else{_readableStatus = "Inactive";}
         FuseMovements();
         Console.WriteLine($"Account type: {GetAType()}\nAccount Number: {_accountNumber}\nBank: {_bank}\nCutOff Date: {_cutOffDate} of each Month\nStatus: {_readableStatus}");
+    }
+    public void AddExpense(double amount, string date, string name, string description,string company)
+    {
+        _newExpense = new ExpenseMovement(amount,date,name,description,company);
+        _listOfExpenses.Add(_newExpense);
+        _balance = _balance - amount;
+    }
+    public void AddDeposit(double amount, string date, string name, string description,string origin)
+    {
+        _newExpense = new ExpenseMovement(amount,date,name,description,origin);
+        _listOfDeposits.Add(_newDeposit);
+        _balance = _balance + amount;
     }
 
     //Local Methods
