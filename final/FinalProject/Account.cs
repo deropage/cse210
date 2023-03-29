@@ -17,6 +17,16 @@ public abstract class Account
 
 
     public Account(){}
+    public Account(int balance, int number,string cutoffdate, string owner, string description, string bank)
+    {
+        SetBalance(balance);
+        SetAccountNumber(number);
+        SetCutOffDate(cutoffdate);
+        SetAccountOwner(owner);
+        SetDescription(description);
+        SetBank(bank);
+
+    }
     //Getters and Setters
     public bool GetStatus(){return _status;}
     public double GetBalance(){return _balance;}

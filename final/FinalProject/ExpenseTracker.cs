@@ -53,6 +53,9 @@ class ExpenseTracker
                 switch(_decisionMenu)
                 {
                     case 1:
+                    Console.Clear();
+                    Console.WriteLine("Account Types\n1.- Debit Account\n2.- Credit Account\n3.- Savings Account\n Please Provide the Type of account you want to register: ");
+                    
                     break;
 
                     case 2:
