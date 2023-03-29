@@ -88,7 +88,7 @@ public abstract class Account
     }
     public void AddDeposit(double amount, string date, string name, string description,string origin)
     {
-        _newExpense = new ExpenseMovement(amount,date,name,description,origin);
+        _newDeposit = new DepositMovement(amount,date,name,description,origin);
         _listOfDeposits.Add(_newDeposit);
         _balance = _balance + amount;
     }
@@ -115,6 +115,7 @@ public abstract class Account
     }
     private void FuseMovements()
     {
+        _listOfMovements.Clear();
         foreach (DepositMovement deposit in _listOfDeposits){_listOfMovements.Add(deposit);}
         foreach (ExpenseMovement expense in _listOfExpenses){_listOfMovements.Add(expense);}
 

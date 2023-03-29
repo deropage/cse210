@@ -241,7 +241,7 @@ class ExpenseTracker
         SimpleSummary();
         Console.WriteLine("Please Select your account to process the deposit: ");
         _getFromConsole = Console.ReadLine();
-        _listIndex = int.Parse(_getFromConsole);
+        _listIndex = int.Parse(_getFromConsole)-1;
         Console.WriteLine("Enter the information of you Deposit");
 
         Console.WriteLine("Enter the amount of your deposit: ");
