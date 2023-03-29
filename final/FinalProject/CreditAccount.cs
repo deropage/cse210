@@ -11,6 +11,9 @@ class CreditAccount :Account
         SetAccountOwner(owner);
         SetDescription(description);
         SetBank(bank);
+        SetInitialBalance(balance);
+        SetStatus(true);
+        SetType("Credit");
     }
 
 }

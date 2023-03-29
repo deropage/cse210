@@ -7,7 +7,7 @@ class SavingAccount:Account
     private double _monthlyDeposit;
     private double _futureEarnings;
     
-    public SavingAccount(int balance, int number,string cutoffdate, string owner, string description, string bank, double interest, double monthly, int periods):base(balance,number,cutoffdate,owner,description,bank)
+    public SavingAccount(double balance, int number,string cutoffdate, string owner, string description, string bank, double interest, double monthly, int periods):base(balance,number,cutoffdate,owner,description,bank)
     {
         SetBalance(balance);
         SetAccountNumber(number);
@@ -18,6 +18,9 @@ class SavingAccount:Account
         SetInterestRate(interest);
         SetMonthlyDeposit(monthly);
         SetPeriods(periods);
+        SetInitialBalance(balance);
+        SetStatus(true);
+        SetType("Savings");
     }
 
     public double CalculateEarnings(int years)

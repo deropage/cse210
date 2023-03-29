@@ -14,10 +14,11 @@ public abstract class Account
     private string _description;
     private string _bank;
     private string _readableStatus;
+    private string _accountType;
 
 
     public Account(){}
-    public Account(int balance, int number,string cutoffdate, string owner, string description, string bank)
+    public Account(double balance, int number,string cutoffdate, string owner, string description, string bank)
     {
         SetBalance(balance);
         SetAccountNumber(number);
@@ -25,6 +26,8 @@ public abstract class Account
         SetAccountOwner(owner);
         SetDescription(description);
         SetBank(bank);
+        SetInitialBalance(balance);
+        SetStatus(true);
 
     }
     //Getters and Setters
@@ -36,6 +39,7 @@ public abstract class Account
     public string GetAccountOwner(){return _accountOwner;}
     public string GetDescription(){return _description;}
     public string GetBank(){return _bank;}
+    public string GetAType(){return _accountType;}
     public void SetStatus(bool status){_status = status;}
     public void SetBalance(double balance){_balance = balance;}
     public void SetInitialBalance(double initbalance){_initialBalance = initbalance;}
@@ -44,6 +48,7 @@ public abstract class Account
     public void SetAccountOwner(string accountnowner){_accountOwner = accountnowner;}
     public void SetDescription(string description){_description = description;}
     public void SetBank(string bank){_bank = bank;}
+    public void SetType(string type){_accountType = type;}
     //Methods for Accounts
 
     //Public Methods
@@ -71,7 +76,7 @@ public abstract class Account
         if(_status){_readableStatus = "Active";}
         else{_readableStatus = "Inactive";}
         FuseMovements();
-        Console.WriteLine($"Account Number: {_accountNumber}\nBank: {_bank}\nCutOff Date: {_cutOffDate} of each Month\nStatus: {_readableStatus}");
+        Console.WriteLine($"Account type: {GetAType()}\nAccount Number: {_accountNumber}\nBank: {_bank}\nCutOff Date: {_cutOffDate} of each Month\nStatus: {_readableStatus}");
     }
 
     //Local Methods

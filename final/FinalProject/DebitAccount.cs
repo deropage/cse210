@@ -3,7 +3,7 @@ using System;
 class DebitAccount:Account
 {
     public DebitAccount(){}
-    public DebitAccount(int balance, int number,string cutoffdate, string owner, string description, string bank):base(balance,number,cutoffdate,owner,description,bank)
+    public DebitAccount(double balance, int number,string cutoffdate, string owner, string description, string bank):base(balance,number,cutoffdate,owner,description,bank)
     {
         SetBalance(balance);
         SetAccountNumber(number);
@@ -11,6 +11,9 @@ class DebitAccount:Account
         SetAccountOwner(owner);
         SetDescription(description);
         SetBank(bank);
+        SetInitialBalance(balance);
+        SetStatus(true);
+        SetType("Debit");
     }
 
 }
