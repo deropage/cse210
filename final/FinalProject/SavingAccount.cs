@@ -32,6 +32,20 @@ class SavingAccount:Account
         }
         return _futureEarnings;
     }
+
+    public override void AccountSummary()
+    {
+        if(GetStatus()){SetReadeableStatus("Active");}
+        else{SetReadeableStatus("Inactive");}
+        FuseMovements();
+        Console.WriteLine($"Account type: {GetAType()}\nAccount Number: {GetAccountNumber()}\nBank: {GetBank()}\nCutOff Date: {GetCutOffDate()} of each Month\nStatus: {GetReadeableStatus()}\nInterest Rate Per Month: {GetInterestRate()}");
+    }
+    public override void GetBalanceSummary()
+    {
+        Console.WriteLine($"Your Initial Balance was: {GetInitialBalance()}\nYour Current debt is {GetBalance()}\nYour monthly interest is: {GetInterestRate()}");
+        Console.WriteLine($"Since you registered your account you have: {CountOfDeposits()} Deposits for ${GetTotalIncome()}");
+        Console.WriteLine($"Since you registered your account you have: {CountOfExpenses()} Expenses for ${GetTotalOutcome()}");
+    }
     //Setters Getters
     public double GetInterestRate(){return _interestRate;}
     public double GetMonthlyDeposit(){return _monthlyDeposit;}

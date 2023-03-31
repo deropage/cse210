@@ -6,6 +6,8 @@ class ExpenseTracker
     private List<Account> _listOfAccounts = new List<Account>();          // List of accounts
     //Variables to use along the program
     private FileManagement _fileManagement = new FileManagement();        // Variable to manager save and load files
+    private List<string>_loadedList = new List<string>();
+    private List<string> _divideString = new List<string>();
     private Profile _userProfile;
     private string _getFromConsole;                                       //Variable to get strings from console
     private int _decisionMenu;                                            //Variable
@@ -14,7 +16,7 @@ class ExpenseTracker
     private string _username;                                           
     private string _address;
     private string _phoneNumber;
-    // Account variables
+    // Account variables adding the suffix "Main" to change from the original variables
     private double _initialBalanceMain;
     private int _accountNumberMain;
     private string _cutOffDateMain;
@@ -24,11 +26,12 @@ class ExpenseTracker
     private double _interestRateMain;
     private double _monthlyDepositMain;
     private int _periodsPerYearMain;
-    //Temporal Accounts variables
+    private double _totalCreditAmountMain;
+    //Temporal Accounts variables, this account types variables helps to create and keep track of new accounts.
     private DebitAccount _myDebitAccount;
     private CreditAccount _myCreditAccount;
     private SavingAccount _mySavingAccount;
-    //Movementes variables
+    //Movements variables adding the suffix "Main" to change from the original variables
     private double _movementAmountMain;
     private string _movementDateMain;
     private string _movementNameMain;
@@ -37,9 +40,6 @@ class ExpenseTracker
     private string _movementOriginMain;
     private int _listIndex;
 
-
-
-    
     public ExpenseTracker() 
     {
         do
@@ -57,13 +57,16 @@ class ExpenseTracker
                     break;
 
                     case 2:
-                    LoadProfile();
+                    Console.WriteLine("What is the filename, please include .txt at the end");
+                    _fileManagement.LoadFile(Console.ReadLine());
+                    _loadedList = _fileManagement.GetLoaded();
+                    LoadProfile(_loadedList);
                     break;
 
                    case 3:
                    _decisionMenu = 7;
                    break;
-            }
+                }
             }
 
             if (_decisionMenu != 7)
@@ -98,7 +101,12 @@ class ExpenseTracker
                     break;
 
                     case 2:
-                    foreach (Account account in _listOfAccounts){account.AccountSummary();}
+                    foreach (Account account in _listOfAccounts)
+                    {
+                        Console.WriteLine("*******************************************");
+                        account.AccountSummary();
+                        Console.WriteLine("*******************************************");
+                        }
                     Console.WriteLine("Press Enter to continue...");
                     _getFromConsole = Console.ReadLine();
                     break;
@@ -112,6 +120,7 @@ class ExpenseTracker
                         case 1:
                         foreach (Account account in _listOfAccounts)
                         {
+                            Console.WriteLine("*******************************************");
                             account.AccountSummary();
                             account.GetBalanceSummary();
                             account.GetMovementsSummary();
@@ -120,6 +129,7 @@ class ExpenseTracker
                         case 2:
                         foreach (Account account in _listOfAccounts)
                         {
+                            Console.WriteLine("*******************************************");
                             account.AccountSummary();
                             account.GetBalanceSummary();
                         }
@@ -146,6 +156,7 @@ class ExpenseTracker
 
         }while (_decisionMenu != 7);
     }
+
     private void CreateNewProfile()
     {  
         Console.WriteLine("Please enter you name: ");
@@ -156,10 +167,41 @@ class ExpenseTracker
         _phoneNumber = Console.ReadLine();
         _userProfile = new Profile(_username, _address, _phoneNumber);
     }
-    private void LoadProfile()
-    {
 
+    private void LoadProfile(List<string> loadlist)
+    {
+        _divideString = loadlist[0].Split("*").ToList();
+        _userProfile = new Profile(_divideString[0],_divideString[1],_divideString[2]);
+        _username = _divideString[0];
+        foreach(string account in loadlist)
+        {
+            _divideString = account.Split("*").ToList();
+            if(_divideString[0] == "Debit" || _divideString[0] == "Credit" || _divideString[0] == "Savings")
+            {
+                switch(_divideString[0])
+                {
+                    case "Debit":
+                    _myDebitAccount = new DebitAccount(double.Parse(_divideString[6]),int.Parse(_divideString[1]),_divideString[3],_divideString[5],_divideString[4],_divideString[2]);
+                    _myDebitAccount.SetStatus(bool.Parse(_divideString[7]));
+                    _listOfAccounts.Add(_myDebitAccount);
+                    break;
+
+                    case "Credit":
+                    _myCreditAccount = new CreditAccount(double.Parse(_divideString[6]),int.Parse(_divideString[1]),_divideString[3],_divideString[5],_divideString[4],_divideString[2],double.Parse(_divideString[8]),double.Parse(_divideString[9]));
+                    _myCreditAccount.SetStatus(bool.Parse(_divideString[7]));
+                    _listOfAccounts.Add(_myCreditAccount);
+                    break;
+
+                    case "Savings":
+                    _mySavingAccount = new SavingAccount(double.Parse(_divideString[6]),int.Parse(_divideString[1]),_divideString[3],_divideString[5],_divideString[4],_divideString[2],double.Parse(_divideString[8]),double.Parse(_divideString[9]),int.Parse(_divideString[10]));
+                    _mySavingAccount.SetStatus(bool.Parse(_divideString[7]));
+                    _listOfAccounts.Add(_mySavingAccount);
+                    break;
+                }
+            }
+        }
     }
+
     private void CreateAccount()//Core method to create accounts
     {
         Console.WriteLine("Enter the name of the Bank: ");
@@ -187,6 +229,15 @@ class ExpenseTracker
     private void CreateCreditAccount()//Create a new Credit account
     {
         CreateAccount();
+        Console.WriteLine("Please enter your interest rate: ");
+        _getFromConsole = Console.ReadLine();
+        _interestRateMain = double.Parse(_getFromConsole);
+        Console.WriteLine("Please enter your Total Credit: ");
+        _getFromConsole = Console.ReadLine();
+        _totalCreditAmountMain = double.Parse(_getFromConsole);
+        _myCreditAccount = new CreditAccount(_initialBalanceMain,_accountNumberMain,_cutOffDateMain,_accountOwnerMain,_descriptionMain,_bankMain,_interestRateMain,_totalCreditAmountMain);
+        _listOfAccounts.Add(_myCreditAccount);
+
     }
     private void CreateSavingsAccount()//Create a new Savings account
     {
@@ -208,6 +259,7 @@ class ExpenseTracker
         _counter = 1;
         foreach(Account account in _listOfAccounts)
         {
+
             Console.WriteLine($"{_counter}.- ");
             account.AccountSummary();
         }

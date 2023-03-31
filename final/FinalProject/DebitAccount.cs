@@ -15,5 +15,17 @@ class DebitAccount:Account
         SetStatus(true);
         SetType("Debit");
     }
-
+    public override void AccountSummary()
+    {
+        if(GetStatus()){SetReadeableStatus("Active");}
+        else{SetReadeableStatus("Inactive");}
+        FuseMovements();
+        Console.WriteLine($"Account type: {GetAType()}\nAccount Number: {GetAccountNumber()}\nBank: {GetBank()}\nCutOff Date: {GetCutOffDate()} of each Month\nStatus: {GetReadeableStatus()}");
+    }
+    public override void GetBalanceSummary()
+    {
+        Console.WriteLine($"Your Initial Balance was: {GetInitialBalance()}\nYour Current Balance is {GetBalance()}");
+        Console.WriteLine($"Since you registered your account you have: {CountOfDeposits()} Deposits for ${GetTotalIncome()}");
+        Console.WriteLine($"Since you registered your account you have: {CountOfExpenses()} Expenses for ${GetTotalOutcome()}");
+    }
 }

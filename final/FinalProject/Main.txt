@@ -1,4 +1,5 @@
 David Segura*Tecolote Mz 23 Lt 1 Mexico*+525545304212*
-Debit*0111128465*BBVA*24*Main Debit Account*David Segura*11124.85*True
-Credit*0122414858*BBVA*12*My main credit card*David Segura*2895.2*350.28*True
-Saving*01215198168*BBVA*06*My savings account*Alicia Cedillo*112584.82*True*.25*3*120
+Debit*0111128465*BBVA*24*Main Debit Account*David Segura*11124.85*true*
+Credit*0122414858*BBVA*12*My main credit card*David Segura*2895.2*true*.25*50000*
+Savings*01215198168*BBVA*06*My savings account*Alicia Cedillo*112584.82*true*.25*120*3*
+

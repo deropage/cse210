@@ -18,7 +18,6 @@ public abstract class Account
     private ExpenseMovement _newExpense;
     private DepositMovement _newDeposit;
 
-
     public Account(){}
     public Account(double balance, int number,string cutoffdate, string owner, string description, string bank)
     {
@@ -30,7 +29,6 @@ public abstract class Account
         SetBank(bank);
         SetInitialBalance(balance);
         SetStatus(true);
-
     }
     //Getters and Setters
     public bool GetStatus(){return _status;}
@@ -42,6 +40,7 @@ public abstract class Account
     public string GetDescription(){return _description;}
     public string GetBank(){return _bank;}
     public string GetAType(){return _accountType;}
+    public string GetReadeableStatus(){return _readableStatus;}
     public void SetStatus(bool status){_status = status;}
     public void SetBalance(double balance){_balance = balance;}
     public void SetInitialBalance(double initbalance){_initialBalance = initbalance;}
@@ -51,74 +50,48 @@ public abstract class Account
     public void SetDescription(string description){_description = description;}
     public void SetBank(string bank){_bank = bank;}
     public void SetType(string type){_accountType = type;}
+    public void SetReadeableStatus(string status){_readableStatus = status;}
     //Methods for Accounts
 
     //Public Methods
-    public void ApplyDesposit(double incomeBalance)
-    {
-        _balance = _balance + incomeBalance;
-    }
-    public void ApplyExpense(double outcomebalance)
-    {
-        _balance = _balance - outcomebalance;
-    }
-    public void GetBalanceSummary()
-    {
-        Console.WriteLine($"Your Initial Balance was: {_initialBalance}\nYour Current Balance is {_balance}");
-        Console.WriteLine($"Since you registered your account you have: {_listOfDeposits.Count()} Deposits for ${GetTotalIncome()}");
-        Console.WriteLine($"Since you registered your account you have: {_listOfExpenses.Count()} Expenses for ${GetTotalOutcome()}");
-    }
-    public void GetMovementsSummary()
+    public abstract void AccountSummary();
+    public abstract void GetBalanceSummary();
+    public void GetMovementsSummary() // Get total list of movements
     {
         FuseMovements();
         foreach(Movement movement in _listOfMovements){movement.MovementSummary();}
     }
-    public void AccountSummary()
-    {
-        if(_status){_readableStatus = "Active";}
-        else{_readableStatus = "Inactive";}
-        FuseMovements();
-        Console.WriteLine($"Account type: {GetAType()}\nAccount Number: {_accountNumber}\nBank: {_bank}\nCutOff Date: {_cutOffDate} of each Month\nStatus: {_readableStatus}");
-    }
-    public void AddExpense(double amount, string date, string name, string description,string company)
+    public void AddExpense(double amount, string date, string name, string description,string company) //Add expense to the list
     {
         _newExpense = new ExpenseMovement(amount,date,name,description,company);
         _listOfExpenses.Add(_newExpense);
         _balance = _balance - amount;
     }
-    public void AddDeposit(double amount, string date, string name, string description,string origin)
+    public void AddDeposit(double amount, string date, string name, string description,string origin) //Add Deposit to the List
     {
         _newDeposit = new DepositMovement(amount,date,name,description,origin);
         _listOfDeposits.Add(_newDeposit);
         _balance = _balance + amount;
     }
-
-    //Local Methods
-    private double GetTotalIncome()
+    public double GetTotalIncome()//calculate the total income of deposits
     {
         double _totalIncome = 0;
-        foreach(DepositMovement deposit in _listOfDeposits)
-        {
-            _totalIncome = _totalIncome + deposit.GetMovementAmount();
-        }
-
+        foreach(DepositMovement deposit in _listOfDeposits){_totalIncome = _totalIncome + deposit.GetMovementAmount();}
         return _totalIncome;
     }
-    private double GetTotalOutcome()
+    public double GetTotalOutcome() // calculate the total outcome from expenses
     {
         double _totalOutcome = 0;
-        foreach(ExpenseMovement expense in _listOfExpenses)
-        {
-            _totalOutcome = _totalOutcome + expense.GetMovementAmount();
-        }
+        foreach(ExpenseMovement expense in _listOfExpenses){_totalOutcome = _totalOutcome + expense.GetMovementAmount();}
         return _totalOutcome;
     }
-    private void FuseMovements()
+    public void FuseMovements() //Fuse expenses and deposits to list all the movements
     {
         _listOfMovements.Clear();
         foreach (DepositMovement deposit in _listOfDeposits){_listOfMovements.Add(deposit);}
         foreach (ExpenseMovement expense in _listOfExpenses){_listOfMovements.Add(expense);}
-
     }
+    public int CountOfDeposits(){return _listOfDeposits.Count();}
+    public int CountOfExpenses(){return _listOfExpenses.Count();}
 
 }

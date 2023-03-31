@@ -50,9 +50,6 @@ public class FileManagement
                 _loadList.Add(line);                          //Adding to a temporary list all the lines of the file
             }
         }
-
-    }
-
-    
+    } 
 }
 
