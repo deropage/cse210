@@ -51,27 +51,19 @@ public abstract class Account
     public void SetBank(string bank){_bank = bank;}
     public void SetType(string type){_accountType = type;}
     public void SetReadeableStatus(string status){_readableStatus = status;}
+
     //Methods for Accounts
 
     //Public Methods
     public abstract void AccountSummary();
     public abstract void GetBalanceSummary();
+    public abstract void AddExpense(double amount, string date, string name, string description,string company);
+    public abstract void AddDeposit(double amount, string date, string name, string description,string origin);
+    
     public void GetMovementsSummary() // Get total list of movements
     {
         FuseMovements();
         foreach(Movement movement in _listOfMovements){movement.MovementSummary();}
-    }
-    public void AddExpense(double amount, string date, string name, string description,string company) //Add expense to the list
-    {
-        _newExpense = new ExpenseMovement(amount,date,name,description,company);
-        _listOfExpenses.Add(_newExpense);
-        _balance = _balance - amount;
-    }
-    public void AddDeposit(double amount, string date, string name, string description,string origin) //Add Deposit to the List
-    {
-        _newDeposit = new DepositMovement(amount,date,name,description,origin);
-        _listOfDeposits.Add(_newDeposit);
-        _balance = _balance + amount;
     }
     public double GetTotalIncome()//calculate the total income of deposits
     {
@@ -93,5 +85,19 @@ public abstract class Account
     }
     public int CountOfDeposits(){return _listOfDeposits.Count();}
     public int CountOfExpenses(){return _listOfExpenses.Count();}
+
+    //Managing Adding expenses and deposits
+    public void SetNewExpense(double amount, string date, string name, string description,string company)
+    {
+        _newExpense = new ExpenseMovement(amount,date,name,description,company);
+        _listOfExpenses.Add(_newExpense);
+    }
+    public void SetNewDeposit(double amount, string date, string name, string description,string origin)
+    {
+        _newDeposit = new DepositMovement(amount,date,name,description,origin);
+        _listOfDeposits.Add(_newDeposit);
+
+    }
+
 
 }

@@ -105,7 +105,6 @@ class ExpenseTracker
                     {
                         Console.WriteLine("*******************************************");
                         account.AccountSummary();
-                        Console.WriteLine("*******************************************");
                         }
                     Console.WriteLine("Press Enter to continue...");
                     _getFromConsole = Console.ReadLine();
@@ -259,8 +258,9 @@ class ExpenseTracker
         _counter = 1;
         foreach(Account account in _listOfAccounts)
         {
-
+            Console.WriteLine("*******************************************");
             Console.WriteLine($"{_counter}.- ");
+            _counter++;
             account.AccountSummary();
         }
     }

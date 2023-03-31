@@ -41,6 +41,18 @@ class CreditAccount :Account
         Console.WriteLine($"Since you registered your account you have: {CountOfDeposits()} Deposits for ${GetTotalIncome()}");
         Console.WriteLine($"Since you registered your account you have: {CountOfExpenses()} Expenses for ${GetTotalOutcome()}");
     }
+    public override void AddExpense(double amount, string date, string name, string description,string company) //Add expense to the list
+    {
+        SetNewExpense(amount,date,name,description,company);
+        SetBalance(GetBalance() + amount);
+        SetAvailableCredit(GetTotalCredit() - GetBalance());
+    }
+    public override void AddDeposit(double amount, string date, string name, string description,string origin) //Add Deposit to the List
+    {
+        SetNewDeposit(amount,date,name,description,origin);
+        SetBalance(GetBalance() - amount);
+        SetAvailableCredit(GetTotalCredit() - GetBalance());
+    }
 
     //Setters Getters
     public double GetInterestRate(){return _interestRate;}
