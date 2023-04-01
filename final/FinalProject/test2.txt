@@ -1,0 +1,10 @@
+Alicia Cedillo*Bochil Mz 73*+525545304212
+DebitAccount*123121512*BBVA*5*Main Debit Account*Alicia Cedillo*5500*True*
+Deposit*300*02/05/2023*Payment work*Payment for outsourcing work*David*0*
+Expense*600*02/05/2023*Videogame*My Favourite Videogame*GamePlanet*0*
+CreditAccount*1231215123*AMEX*9*My Credit Card*Alicia Cedillo*12113*True*0.12*180000*
+Deposit*310*02/05/2023*Monthly*Monthly Payment*Alicia Cedillo*1*
+Expense*610*02/05/2023*VCake*My Favourite Cake*El Globo*1*
+SavingAccount*124577235*SURA*7*My Retirement Account*Alicia Segura*60520*True*0.12*189*12*
+Deposit*320*02/05/2023*Extra Payment*Payment for excelent work*Alicia Cedillo*2*
+Expense*620*02/05/2023*House Rent*Rent of House*Building*2*

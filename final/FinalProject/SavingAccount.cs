@@ -7,7 +7,7 @@ class SavingAccount:Account
     private double _monthlyDeposit;
     private double _futureEarnings;
     
-    public SavingAccount(double balance, int number,string cutoffdate, string owner, string description, string bank, double interest, double monthly, int periods):base(balance,number,cutoffdate,owner,description,bank)
+    public SavingAccount(double balance, string number,string cutoffdate, string owner, string description, string bank, double interest, double monthly, int periods):base(balance,number,cutoffdate,owner,description,bank)
     {
         SetBalance(balance);
         SetAccountNumber(number);
@@ -20,7 +20,7 @@ class SavingAccount:Account
         SetPeriods(periods);
         SetInitialBalance(balance);
         SetStatus(true);
-        SetType("Savings");
+        SetType("Saving");
     }
 
     public double CalculateEarnings(int years)
@@ -46,15 +46,20 @@ class SavingAccount:Account
         Console.WriteLine($"Since you registered your account you have: {CountOfDeposits()} Deposits for ${GetTotalIncome()}");
         Console.WriteLine($"Since you registered your account you have: {CountOfExpenses()} Expenses for ${GetTotalOutcome()}");
     }
-    public override void AddExpense(double amount, string date, string name, string description,string company) //Add expense to the list
+    public override void AddExpense(double amount, string date, string name, string description,int id,string company) //Add expense to the list
     {
-        SetNewExpense(amount,date,name,description,company);
+        SetNewExpense(amount,date,name,description,id,company);
         SetBalance(GetBalance() - amount);
     }
-    public override void AddDeposit(double amount, string date, string name, string description,string origin) //Add Deposit to the List
+    public override void AddDeposit(double amount, string date, string name, string description,int id,string origin) //Add Deposit to the List
     {
-        SetNewDeposit(amount,date,name,description,origin);
+        SetNewDeposit(amount,date,name,description,id,origin);
         SetBalance(GetBalance() + amount);
+    }
+    public override string GenerateSaveString()
+    {
+        SetSaveString($"{GetType()}*{GetAccountNumber()}*{GetBank()}*{GetCutOffDate()}*{GetDescription()}*{GetAccountOwner()}*{GetBalance()}*{GetStatus()}*{GetInterestRate()}*{GetMonthlyDeposit()}*{GetPeriods()}*");
+        return GetSaveString();
     }
     //Setters Getters
     public double GetInterestRate(){return _interestRate;}

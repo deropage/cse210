@@ -5,35 +5,27 @@ using System.IO;
 public class FileManagement
 {
     private string _fileName;
-    private List<string> _goals = new List<string>();
-    private List<string> _loadList = new List<string>();
     private string line;
+    private List<string> _loadList = new List<string>();
     public FileManagement()
     {
 
-    }
-    public void SetGoals(string goal)
-    {
-        _goals.Add(goal);
     }
     public void SetFileName(string name)
     {
         _fileName = name;
     }
-    public void ClearList()
-    {
-        _goals.Clear();
-    }
+
     public List<string> GetLoaded()
     {
         return _loadList;
     }
 
-    public void SaveFile()
+    public void SaveFile(List<string> stringList)
     {
         using (StreamWriter outputFile  = new StreamWriter(@_fileName))
         {
-            foreach (var index in _goals)
+            foreach (var index in stringList)
             {
                 outputFile.WriteLine(index);                            // Save the File in the given File Namess
             }

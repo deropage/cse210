@@ -8,6 +8,7 @@ class ExpenseTracker
     private FileManagement _fileManagement = new FileManagement();        // Variable to manager save and load files
     private List<string>_loadedList = new List<string>();
     private List<string> _divideString = new List<string>();
+    private List<string> _conversionList = new List<string>();
     private Profile _userProfile;
     private string _getFromConsole;                                       //Variable to get strings from console
     private int _decisionMenu;                                            //Variable
@@ -18,7 +19,7 @@ class ExpenseTracker
     private string _phoneNumber;
     // Account variables adding the suffix "Main" to change from the original variables
     private double _initialBalanceMain;
-    private int _accountNumberMain;
+    private string _accountNumberMain;
     private string _cutOffDateMain;
     private string _accountOwnerMain;
     private string _descriptionMain;
@@ -39,6 +40,9 @@ class ExpenseTracker
     private string _movementCompanyMain;
     private string _movementOriginMain;
     private int _listIndex;
+    //Variables to manage import and export of files
+    private string _tempStringToSave;
+    private List<string> _tempListString = new List<string>();
 
     public ExpenseTracker() 
     {
@@ -141,7 +145,7 @@ class ExpenseTracker
                     break;
 
                     case 4:
-                    RecordExpense();
+                    RecordExpense(Get_listOfAccounts());
                     break;
 
                     case 5:
@@ -149,6 +153,7 @@ class ExpenseTracker
                     break;
 
                     case 6:
+                    SaveFile();
                     break;
                 }
             }
@@ -172,31 +177,44 @@ class ExpenseTracker
         _divideString = loadlist[0].Split("*").ToList();
         _userProfile = new Profile(_divideString[0],_divideString[1],_divideString[2]);
         _username = _divideString[0];
-        foreach(string account in loadlist)
+        foreach(string line in loadlist)
         {
-            _divideString = account.Split("*").ToList();
-            if(_divideString[0] == "Debit" || _divideString[0] == "Credit" || _divideString[0] == "Savings")
+            _divideString = line.Split("*").ToList();
+            if(_divideString[0] == "DebitAccount" || _divideString[0] == "CreditAccount" || _divideString[0] == "SavingAccount")
             {
                 switch(_divideString[0])
                 {
-                    case "Debit":
-                    _myDebitAccount = new DebitAccount(double.Parse(_divideString[6]),int.Parse(_divideString[1]),_divideString[3],_divideString[5],_divideString[4],_divideString[2]);
+                    case "DebitAccount":
+                    _myDebitAccount = new DebitAccount(double.Parse(_divideString[6]),_divideString[1],_divideString[3],_divideString[5],_divideString[4],_divideString[2]);
                     _myDebitAccount.SetStatus(bool.Parse(_divideString[7]));
                     _listOfAccounts.Add(_myDebitAccount);
                     break;
 
-                    case "Credit":
-                    _myCreditAccount = new CreditAccount(double.Parse(_divideString[6]),int.Parse(_divideString[1]),_divideString[3],_divideString[5],_divideString[4],_divideString[2],double.Parse(_divideString[8]),double.Parse(_divideString[9]));
+                    case "CreditAccount":
+                    _myCreditAccount = new CreditAccount(double.Parse(_divideString[6]),_divideString[1],_divideString[3],_divideString[5],_divideString[4],_divideString[2],double.Parse(_divideString[8]),double.Parse(_divideString[9]));
                     _myCreditAccount.SetStatus(bool.Parse(_divideString[7]));
                     _listOfAccounts.Add(_myCreditAccount);
                     break;
 
-                    case "Savings":
-                    _mySavingAccount = new SavingAccount(double.Parse(_divideString[6]),int.Parse(_divideString[1]),_divideString[3],_divideString[5],_divideString[4],_divideString[2],double.Parse(_divideString[8]),double.Parse(_divideString[9]),int.Parse(_divideString[10]));
+                    case "SavingAccount":
+                    _mySavingAccount = new SavingAccount(double.Parse(_divideString[6]),_divideString[1],_divideString[3],_divideString[5],_divideString[4],_divideString[2],double.Parse(_divideString[8]),double.Parse(_divideString[9]),int.Parse(_divideString[10]));
                     _mySavingAccount.SetStatus(bool.Parse(_divideString[7]));
                     _listOfAccounts.Add(_mySavingAccount);
                     break;
                 }
+            }
+            else if(_divideString[0]== "Expense" || _divideString[0] == "Deposit")
+            {
+                switch(_divideString[0])
+                {
+                    case "Expense":
+                    _listOfAccounts[int.Parse(_divideString[6])].AddExpense(double.Parse(_divideString[1]),_divideString[2],_divideString[3],_divideString[4],int.Parse(_divideString[6]),_divideString[5]);
+                    break;
+                    case "Deposit":
+                    _listOfAccounts[int.Parse(_divideString[6])].AddDeposit(double.Parse(_divideString[1]),_divideString[2],_divideString[3],_divideString[4],int.Parse(_divideString[6]),_divideString[5]);
+                    break;
+                }
+                
             }
         }
     }
@@ -208,8 +226,7 @@ class ExpenseTracker
         Console.WriteLine("Enter the Account Owner Name: ");
         _accountOwnerMain = Console.ReadLine();
         Console.WriteLine("Enter the Account Number: ");
-        _getFromConsole = Console.ReadLine();
-        _accountNumberMain = int.Parse(_getFromConsole);
+        _accountNumberMain = Console.ReadLine();
         Console.WriteLine("Enter the CutOff Day: ");
         _cutOffDateMain = Console.ReadLine();
         Console.WriteLine("Enter a description: ");
@@ -218,7 +235,6 @@ class ExpenseTracker
         _getFromConsole = Console.ReadLine();
         _initialBalanceMain = double.Parse(_getFromConsole);
     }
-
     private void CreateDebitAccount()//Create a new Debit Account
     {
         CreateAccount();
@@ -236,7 +252,6 @@ class ExpenseTracker
         _totalCreditAmountMain = double.Parse(_getFromConsole);
         _myCreditAccount = new CreditAccount(_initialBalanceMain,_accountNumberMain,_cutOffDateMain,_accountOwnerMain,_descriptionMain,_bankMain,_interestRateMain,_totalCreditAmountMain);
         _listOfAccounts.Add(_myCreditAccount);
-
     }
     private void CreateSavingsAccount()//Create a new Savings account
     {
@@ -264,13 +279,19 @@ class ExpenseTracker
             account.AccountSummary();
         }
     }
-    private void RecordExpense()
+
+    private List<Account> Get_listOfAccounts()
+    {
+        return _listOfAccounts;
+    }
+
+    private void RecordExpense(List<Account> _listOfAccounts)
     {
         Console.WriteLine("From your accounts: ");
         SimpleSummary();
         Console.WriteLine("Please Select your account to process the expense: ");
         _getFromConsole = Console.ReadLine();
-        _listIndex = int.Parse(_getFromConsole);
+        _listIndex = int.Parse(_getFromConsole)-1;
         Console.WriteLine("Enter the information of you Expense");
 
         Console.WriteLine("Enter the amount of your expense: ");
@@ -284,8 +305,7 @@ class ExpenseTracker
         _movementDescription = Console.ReadLine();
         Console.WriteLine("Enter where you did the expense: ");
         _movementCompanyMain = Console.ReadLine();
-        _listOfAccounts[_listIndex].AddExpense(_movementAmountMain,_movementDateMain,_movementNameMain,_movementDescription,_movementCompanyMain);
-
+        _listOfAccounts[_listIndex].AddExpense(_movementAmountMain,_movementDateMain,_movementNameMain,_movementDescription,_listIndex,_movementCompanyMain);
     }
     private void RecordDeposit()
     {
@@ -307,8 +327,27 @@ class ExpenseTracker
         _movementDescription = Console.ReadLine();
         Console.WriteLine("Enter the origin of your deposit: ");
         _movementOriginMain = Console.ReadLine();
-        _listOfAccounts[_listIndex].AddDeposit(_movementAmountMain,_movementDateMain,_movementNameMain,_movementDescription,_movementOriginMain);
-
-
+        _listOfAccounts[_listIndex].AddDeposit(_movementAmountMain,_movementDateMain,_movementNameMain,_movementDescription,_listIndex,_movementOriginMain);
+    }
+    public void SaveFile()
+    {
+        _conversionList.Clear();
+        ConvertData();
+        Console.Write("What is the filename for the goal file, include the .txt extension at the end ");
+        _fileManagement.SetFileName(Console.ReadLine());
+        _fileManagement.SaveFile(_conversionList);
+    }
+    public void ConvertData()
+    {
+        _tempStringToSave = _userProfile.GetUsername() + "*" + _userProfile.GetAddress() + "*" + _userProfile.GetPhone();
+        _conversionList.Add(_tempStringToSave);
+        foreach(Account account in _listOfAccounts)
+        {
+            _tempListString.Clear();
+            account.GenerateSaveString();
+            _conversionList.Add(account.GetSaveString());
+            _tempListString = account.GetOutputMovements();
+            foreach(string movement in _tempListString){_conversionList.Add(movement);}
+        }
     }
 }
