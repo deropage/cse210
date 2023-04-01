@@ -6,6 +6,7 @@ public abstract class Account
     private List<DepositMovement> _listOfDeposits = new List<DepositMovement>();
     private List<ExpenseMovement> _listOfExpenses = new List<ExpenseMovement>();
     private List<Movement> _listOfMovements = new List<Movement>();
+    //Main variables for accounts
     private bool _status;
     private double _balance;
     private double _initialBalance;
@@ -14,9 +15,9 @@ public abstract class Account
     private string _accountOwner;
     private string _description;
     private string _bank;
-    private string _readableStatus;
     private string _accountType;
-
+    private string _readableStatus;
+    
     //Temporal expenses and deposits to store in account
     private ExpenseMovement _newExpense;
     private DepositMovement _newDeposit;
@@ -25,6 +26,7 @@ public abstract class Account
     private List<string> _listOfOutputMovements = new List<string>();
 
     public Account(){}
+    //Main constructor for all the account type classes
     public Account(double balance, string number,string cutoffdate, string owner, string description, string bank)
     {
         SetBalance(balance);
@@ -36,39 +38,16 @@ public abstract class Account
         SetInitialBalance(balance);
         SetStatus(true);
     }
-    //Getters and Setters
-    public bool GetStatus(){return _status;}
-    public double GetBalance(){return _balance;}
-    public double GetInitialBalance(){return _initialBalance;}
-    public string GetAccountNumber(){return _accountNumber;}
-    public string GetCutOffDate(){return _cutOffDate;}
-    public string GetAccountOwner(){return _accountOwner;}
-    public string GetDescription(){return _description;}
-    public string GetBank(){return _bank;}
-    public string GetAType(){return _accountType;}
-    public string GetReadeableStatus(){return _readableStatus;}
-    public string GetSaveString(){return _saveString;}
-    public void SetStatus(bool status){_status = status;}
-    public void SetBalance(double balance){_balance = balance;}
-    public void SetInitialBalance(double initbalance){_initialBalance = initbalance;}
-    public void SetAccountNumber(string accountnumber){_accountNumber = accountnumber;}
-    public void SetCutOffDate(string cutoff){_cutOffDate = cutoff;}
-    public void SetAccountOwner(string accountnowner){_accountOwner = accountnowner;}
-    public void SetDescription(string description){_description = description;}
-    public void SetBank(string bank){_bank = bank;}
-    public void SetType(string type){_accountType = type;}
-    public void SetSaveString(string newdata){_saveString = newdata;}
-    public void SetReadeableStatus(string status){_readableStatus = status;}
-
     //Methods for Accounts
 
-    //Public Methods
+    //Methods to Override to account type objects!
     public abstract void AccountSummary();
     public abstract void GetBalanceSummary();
     public abstract void AddExpense(double amount, string date, string name, string description,int id,string company);
     public abstract void AddDeposit(double amount, string date, string name, string description,int id,string origin);
     public abstract string GenerateSaveString();
-    public void GetMovementsSummary() // Get total list of movements
+
+    public void GetMovementsSummary() // Get total list of movements and print to console
     {
         FuseMovements();
         foreach(Movement movement in _listOfMovements){movement.MovementSummary();}
@@ -95,16 +74,17 @@ public abstract class Account
     public int CountOfExpenses(){return _listOfExpenses.Count();} //Get the amount of expenses
 
     //Managing Adding expenses and deposits
-    public void SetNewExpense(double amount, string date, string name, string description,int id,string company) //Apply new expense
+    public void SetNewExpense(double amount, string date, string name, string description,int id,string company) //Save new expense as temporal expense variable is private
     {
         _newExpense = new ExpenseMovement(amount,date,name,description,id,company);
         _listOfExpenses.Add(_newExpense);
     }
-    public void SetNewDeposit(double amount, string date, string name, string description,int id, string origin) // Apply new Deposit
+    public void SetNewDeposit(double amount, string date, string name, string description,int id, string origin) // Save new Deposit as temporal deposit variable is private
     {
         _newDeposit = new DepositMovement(amount,date,name,description,id,origin);
         _listOfDeposits.Add(_newDeposit);
     }
+    //Method to create a list whith strings of all the movements in the account
     public List<string> GetOutputMovements()
     {
         FuseMovements();
@@ -115,5 +95,29 @@ public abstract class Account
         return _listOfOutputMovements;
     }
 
+    //Getters and Setters
+    public bool GetStatus(){return _status;}
+    public double GetBalance(){return _balance;}
+    public double GetInitialBalance(){return _initialBalance;}
+    public string GetAccountNumber(){return _accountNumber;}
+    public string GetCutOffDate(){return _cutOffDate;}
+    public string GetAccountOwner(){return _accountOwner;}
+    public string GetDescription(){return _description;}
+    public string GetBank(){return _bank;}
+    public string GetAType(){return _accountType;}
+    public string GetReadeableStatus(){return _readableStatus;}
+    public string GetSaveString(){return _saveString;}
+    public void SetStatus(bool status){_status = status;}
+    public void SetBalance(double balance){_balance = balance;}
+    public void SetInitialBalance(double initbalance){_initialBalance = initbalance;}
+    public void SetAccountNumber(string accountnumber){_accountNumber = accountnumber;}
+    public void SetCutOffDate(string cutoff){_cutOffDate = cutoff;}
+    public void SetAccountOwner(string accountnowner){_accountOwner = accountnowner;}
+    public void SetDescription(string description){_description = description;}
+    public void SetBank(string bank){_bank = bank;}
+    public void SetType(string type){_accountType = type;}
+    public void SetSaveString(string newdata){_saveString = newdata;}
+    public void SetReadeableStatus(string status){_readableStatus = status;}
 
+    
 }

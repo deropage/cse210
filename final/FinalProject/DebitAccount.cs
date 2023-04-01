@@ -2,7 +2,7 @@ using System;
 
 class DebitAccount:Account
 {
-    public DebitAccount(){}
+    //Constructor to create a new Debit account which is the same to original constructor
     public DebitAccount(double balance, string number,string cutoffdate, string owner, string description, string bank):base(balance,number,cutoffdate,owner,description,bank)
     {
         SetBalance(balance);
@@ -15,6 +15,7 @@ class DebitAccount:Account
         SetStatus(true);
         SetType("Debit");
     }
+    //Method to print Account summary for debit accounts
     public override void AccountSummary()
     {
         if(GetStatus()){SetReadeableStatus("Active");}
@@ -22,6 +23,7 @@ class DebitAccount:Account
         FuseMovements();
         Console.WriteLine($"Account type: {GetAType()}\nAccount Number: {GetAccountNumber()}\nBank: {GetBank()}\nCutOff Date: {GetCutOffDate()} of each Month\nStatus: {GetReadeableStatus()}");
     }
+    //Method to print Balance Summary for debit accounts
     public override void GetBalanceSummary()
     {
         Console.WriteLine($"Your Initial Balance was: {GetInitialBalance()}\nYour Current Balance is {GetBalance()}");
@@ -38,6 +40,7 @@ class DebitAccount:Account
         SetNewDeposit(amount,date,name,description,id,origin);
         SetBalance(GetBalance() + amount);
     }
+    //Generate string with account data to export to a file
     public override string GenerateSaveString()
     {
         SetSaveString($"{GetType()}*{GetAccountNumber()}*{GetBank()}*{GetCutOffDate()}*{GetDescription()}*{GetAccountOwner()}*{GetBalance()}*{GetStatus()}*");

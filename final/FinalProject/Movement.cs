@@ -2,15 +2,18 @@ using System;
 
 public abstract class Movement
 {
+    //Main Movement variables
     private double _movementAmount;
     private string _movementDate;
     private string _movementName;
     private string _movementDescription;
     private string _movementType;
     private int _accountID;
+    //Variable to convert to string
     private string _saveString;
     
     public Movement(){}
+    //Main contructor for movement
     public Movement(double amount, string date, string name, string description, int accountID)
     {
         SetMovementAmount(amount);
@@ -19,14 +22,14 @@ public abstract class Movement
         SetMovementDescription(description);
         SetAccountID(accountID);
     }
-
+    //Standart movemement summary form
     public void MovementSummary()
     {
         Console.WriteLine($"{_movementDate} - {_movementName} for {_movementAmount}\n {_movementDescription}");
     }
-    public abstract string GenerateSaveString();
+    public abstract string GenerateSaveString(); //Generate string method for export data, this will be overided by each movement type
 
-    //Getters and Setters
+    //Getters and Setters of main variables
     public double GetMovementAmount(){return _movementAmount;}
     public string GetMovementDate(){return _movementDate;}
     public string GetMovementName(){return _movementName;}

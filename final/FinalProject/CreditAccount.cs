@@ -2,11 +2,11 @@ using System;
 
 class CreditAccount :Account
 {
+    //Variables that works only with credit accounts
     private double _interestRate;
     private double _availableCredit;
     private double _totalCreditAmount;
     private double _paymentInterest;
-    public CreditAccount(){}
     public CreditAccount(double balance, string number,string cutoffdate, string owner, string description, string bank, double interest, double total):base(balance,number,cutoffdate,owner,description,bank)
     {
         SetBalance(balance);
@@ -22,12 +22,13 @@ class CreditAccount :Account
         SetTotalCredit(total);
         SetAvailableCredit(_totalCreditAmount - balance);
     }
-
+    //Method to calculate interest for each month
     public double CalculateInterest()
     {
         _paymentInterest = GetBalance() * _interestRate;
         return _paymentInterest;
     }
+    //Method to print Account summary for credit accounts
     public override void AccountSummary()
     {
         if(GetStatus()){SetReadeableStatus("Active");}
@@ -35,6 +36,7 @@ class CreditAccount :Account
         FuseMovements();
         Console.WriteLine($"Account type: {GetAType()}\nAccount Number: {GetAccountNumber()}\nBank: {GetBank()}\nCutOff Date: {GetCutOffDate()} of each Month\nStatus: {GetReadeableStatus()}\nInterest Rate Per Month: {GetInterestRate()}\nTotal Credit Available: {GetAvailableCredit()}");
     }
+    //Method to print Balance Summary for credit accounts
     public override void GetBalanceSummary()
     {
         Console.WriteLine($"Your Initial Balance was: {GetInitialBalance()}\nYour Current debt is {GetBalance()}\nThe total Credit amount is: {GetTotalCredit()}\nYour monthly interest is: {GetInterestRate()}");
@@ -53,6 +55,7 @@ class CreditAccount :Account
         SetBalance(GetBalance() - amount);
         SetAvailableCredit(GetTotalCredit() - GetBalance());
     }
+    //Generate string with account data to export to a file
     public override string GenerateSaveString()
     {
         SetSaveString($"{GetType()}*{GetAccountNumber()}*{GetBank()}*{GetCutOffDate()}*{GetDescription()}*{GetAccountOwner()}*{GetBalance()}*{GetStatus()}*{GetInterestRate()}*{GetTotalCredit()}*");

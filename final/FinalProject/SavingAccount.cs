@@ -2,10 +2,12 @@ using System;
 
 class SavingAccount:Account
 {
+    //Variable that works only with Saving account
     private double _interestRate;
     private int _periodsPerYear;
     private double _monthlyDeposit;
     private double _futureEarnings;
+    //Constructor to create a new saving account
     
     public SavingAccount(double balance, string number,string cutoffdate, string owner, string description, string bank, double interest, double monthly, int periods):base(balance,number,cutoffdate,owner,description,bank)
     {
@@ -22,7 +24,7 @@ class SavingAccount:Account
         SetStatus(true);
         SetType("Saving");
     }
-
+    //Method to calculate future earnings
     public double CalculateEarnings(int years)
     {
         _futureEarnings = GetBalance();
@@ -32,7 +34,7 @@ class SavingAccount:Account
         }
         return _futureEarnings;
     }
-
+    //Method to print Account summary for savings accounts
     public override void AccountSummary()
     {
         if(GetStatus()){SetReadeableStatus("Active");}
@@ -40,6 +42,7 @@ class SavingAccount:Account
         FuseMovements();
         Console.WriteLine($"Account type: {GetAType()}\nAccount Number: {GetAccountNumber()}\nBank: {GetBank()}\nCutOff Date: {GetCutOffDate()} of each Month\nStatus: {GetReadeableStatus()}\nInterest Rate Per Month: {GetInterestRate()}");
     }
+    //Method to print Balance Summary for savings accounts
     public override void GetBalanceSummary()
     {
         Console.WriteLine($"Your Initial Balance was: {GetInitialBalance()}\nYour Current debt is {GetBalance()}\nYour monthly interest is: {GetInterestRate()}");
@@ -56,11 +59,13 @@ class SavingAccount:Account
         SetNewDeposit(amount,date,name,description,id,origin);
         SetBalance(GetBalance() + amount);
     }
+    //Generate string with account data to export to a file
     public override string GenerateSaveString()
     {
         SetSaveString($"{GetType()}*{GetAccountNumber()}*{GetBank()}*{GetCutOffDate()}*{GetDescription()}*{GetAccountOwner()}*{GetBalance()}*{GetStatus()}*{GetInterestRate()}*{GetMonthlyDeposit()}*{GetPeriods()}*");
         return GetSaveString();
     }
+
     //Setters Getters
     public double GetInterestRate(){return _interestRate;}
     public double GetMonthlyDeposit(){return _monthlyDeposit;}

@@ -6,14 +6,14 @@ class ExpenseTracker
     private List<Account> _listOfAccounts = new List<Account>();          // List of accounts
     //Variables to use along the program
     private FileManagement _fileManagement = new FileManagement();        // Variable to manager save and load files
-    private List<string>_loadedList = new List<string>();
-    private List<string> _divideString = new List<string>();
-    private List<string> _conversionList = new List<string>();
-    private Profile _userProfile;
+    private List<string>_loadedList = new List<string>();                //List to store loaded strings from a file
+    private List<string> _divideString = new List<string>();             //list to store the data from each line of a file
+    private List<string> _conversionList = new List<string>();           //List to store data to output to a file
+    private Profile _userProfile;                                       //User Profile type variable
     private string _getFromConsole;                                       //Variable to get strings from console
     private int _decisionMenu;                                            //Variable
-    private int _counter;
-    //Profile Variables
+    private int _counter;                                               //general counter
+    //Variable to create a new profile
     private string _username;                                           
     private string _address;
     private string _phoneNumber;
@@ -44,10 +44,12 @@ class ExpenseTracker
     private string _tempStringToSave;
     private List<string> _tempListString = new List<string>();
 
+    //Main constructor which runs the program at the declarion of the class
     public ExpenseTracker() 
     {
         do
         {
+            //Main Menu to load a profile or create a new one
             if(String.IsNullOrEmpty(_username))
             {
                 Console.Clear();
@@ -56,18 +58,18 @@ class ExpenseTracker
                 _decisionMenu = int.Parse(_getFromConsole);
                 switch(_decisionMenu)
                 {
-                    case 1:
+                    case 1: // Creates a new profile and ask for all the new data
                     CreateNewProfile();
                     break;
 
-                    case 2:
+                    case 2: //Gets all the data for the profile, accounts and movements from .txt file
                     Console.WriteLine("What is the filename, please include .txt at the end");
                     _fileManagement.LoadFile(Console.ReadLine());
                     _loadedList = _fileManagement.GetLoaded();
                     LoadProfile(_loadedList);
                     break;
 
-                   case 3:
+                   case 3: //Quits the program
                    _decisionMenu = 7;
                    break;
                 }
@@ -75,53 +77,62 @@ class ExpenseTracker
 
             if (_decisionMenu != 7)
             {
-                // App Menu
+                // App Menu, once the user created or loaded its profile we have the program for accounts and movements
                 Console.Clear();
                 Console.WriteLine($"Hello {_userProfile.GetUsername()}!\nWelcome to your expense tracker!\nMenu Options:\n 1. Create New Account\n 2. List your accounts\n 3. Accounts summary\n 4. Record New Expense \n 5. Record New Deposit \n 6. Save Data \n 7. Quit\nSelect a choice from the Menu: ");
                 _getFromConsole = Console.ReadLine();
                 _decisionMenu = int.Parse(_getFromConsole);
                 switch(_decisionMenu)
                 {
-                    case 1:
+                    case 1: //Create new account
                     Console.Clear();
                     Console.WriteLine("Account Types\n1.- Debit Account\n2.- Credit Account\n3.- Savings Account\n Please Provide the Type of account you want to register: ");
                     _getFromConsole = Console.ReadLine();
                     _decisionMenu = int.Parse(_getFromConsole);
                     switch(_decisionMenu)
                     {
-                        case 1:
+                        case 1: // Create debit account
                         CreateDebitAccount();
                         break;
 
-                        case 2:
+                        case 2: // Create Credit account
                         CreateCreditAccount();
                         break;
 
-                        case 3:
+                        case 3: // Create Savings Account
                         CreateSavingsAccount();
                         break;
 
                     }
                     break;
 
-                    case 2:
+                    case 2: // List accounts created
                     foreach (Account account in _listOfAccounts)
                     {
                         Console.WriteLine("*******************************************");
                         account.AccountSummary();
-                        }
-                    Console.WriteLine("Press Enter to continue...");
+                    }
+                    Console.WriteLine("Press Enter to continue..."); //Keeps the information on screen until the user decides with enter
                     _getFromConsole = Console.ReadLine();
                     break;
 
-                    case 3:
-                    Console.WriteLine("1. Detailed Summary\n2. Simple Summary");
+                    case 3: //Accounts summary
+                    Console.WriteLine("1. Simple Summary\n2. Detailed Summary"); // Decide what kind of summary the user needs
                     _getFromConsole = Console.ReadLine();
                     _decisionMenu = int.Parse(_getFromConsole);
                     switch (_decisionMenu)
                     {
-                        case 1:
-                        foreach (Account account in _listOfAccounts)
+                        case 1: // Simple Summary
+                        foreach (Account account in _listOfAccounts) 
+                        {
+                            Console.WriteLine("*******************************************");
+                            account.AccountSummary();
+                            account.GetBalanceSummary();
+                        }
+                        break;
+
+                        case 2: // Detailed summary
+                        foreach (Account account in _listOfAccounts) 
                         {
                             Console.WriteLine("*******************************************");
                             account.AccountSummary();
@@ -129,30 +140,21 @@ class ExpenseTracker
                             account.GetMovementsSummary();
                         }
                         break;
-                        case 2:
-                        foreach (Account account in _listOfAccounts)
-                        {
-                            Console.WriteLine("*******************************************");
-                            account.AccountSummary();
-                            account.GetBalanceSummary();
-                        }
-
-                        break;
                     }
-                    Console.WriteLine("Press Enter to continue...");
+                    Console.WriteLine("Press Enter to continue..."); //Keeps the information on screen until the user decides with enter
                     _getFromConsole = Console.ReadLine();
-                    _decisionMenu = 0;
+                    _decisionMenu = 0; // Resets the variable for the menu
                     break;
 
-                    case 4:
-                    RecordExpense(Get_listOfAccounts());
+                    case 4: // Record a new expense 
+                    RecordExpense();
                     break;
 
-                    case 5:
+                    case 5: // Record a new deposit
                     RecordDeposit();
                     break;
 
-                    case 6:
+                    case 6: // Exporte the data to a file
                     SaveFile();
                     break;
                 }
@@ -160,7 +162,8 @@ class ExpenseTracker
 
         }while (_decisionMenu != 7);
     }
-
+    
+    //Method to create a new profile
     private void CreateNewProfile()
     {  
         Console.WriteLine("Please enter you name: ");
@@ -171,47 +174,47 @@ class ExpenseTracker
         _phoneNumber = Console.ReadLine();
         _userProfile = new Profile(_username, _address, _phoneNumber);
     }
-
+    //Method to load a profile, accounts and movements from a file
     private void LoadProfile(List<string> loadlist)
     {
-        _divideString = loadlist[0].Split("*").ToList();
-        _userProfile = new Profile(_divideString[0],_divideString[1],_divideString[2]);
+        _divideString = loadlist[0].Split("*").ToList(); //the splitter criteria is the "*"
+        _userProfile = new Profile(_divideString[0],_divideString[1],_divideString[2]); // profile information is getted from the first line
         _username = _divideString[0];
-        foreach(string line in loadlist)
+        foreach(string line in loadlist) //Loading all the accounts
         {
-            _divideString = line.Split("*").ToList();
-            if(_divideString[0] == "DebitAccount" || _divideString[0] == "CreditAccount" || _divideString[0] == "SavingAccount")
+            _divideString = line.Split("*").ToList();//the splitter criteria is the "*"
+            if(_divideString[0] == "DebitAccount" || _divideString[0] == "CreditAccount" || _divideString[0] == "SavingAccount") // Creating accounts from lines that begin with account type
             {
                 switch(_divideString[0])
                 {
                     case "DebitAccount":
-                    _myDebitAccount = new DebitAccount(double.Parse(_divideString[6]),_divideString[1],_divideString[3],_divideString[5],_divideString[4],_divideString[2]);
-                    _myDebitAccount.SetStatus(bool.Parse(_divideString[7]));
-                    _listOfAccounts.Add(_myDebitAccount);
+                    _myDebitAccount = new DebitAccount(double.Parse(_divideString[6]),_divideString[1],_divideString[3],_divideString[5],_divideString[4],_divideString[2]); //Create new account with the data from the file
+                    _myDebitAccount.SetStatus(bool.Parse(_divideString[7])); // sets status of the account
+                    _listOfAccounts.Add(_myDebitAccount); // Add the account to the main list of accounts
                     break;
 
                     case "CreditAccount":
-                    _myCreditAccount = new CreditAccount(double.Parse(_divideString[6]),_divideString[1],_divideString[3],_divideString[5],_divideString[4],_divideString[2],double.Parse(_divideString[8]),double.Parse(_divideString[9]));
-                    _myCreditAccount.SetStatus(bool.Parse(_divideString[7]));
-                    _listOfAccounts.Add(_myCreditAccount);
+                    _myCreditAccount = new CreditAccount(double.Parse(_divideString[6]),_divideString[1],_divideString[3],_divideString[5],_divideString[4],_divideString[2],double.Parse(_divideString[8]),double.Parse(_divideString[9])); //Create new account with the data from the file
+                    _myCreditAccount.SetStatus(bool.Parse(_divideString[7]));// sets status of the account
+                    _listOfAccounts.Add(_myCreditAccount); // Add the account to the main list of accounts
                     break;
 
                     case "SavingAccount":
-                    _mySavingAccount = new SavingAccount(double.Parse(_divideString[6]),_divideString[1],_divideString[3],_divideString[5],_divideString[4],_divideString[2],double.Parse(_divideString[8]),double.Parse(_divideString[9]),int.Parse(_divideString[10]));
-                    _mySavingAccount.SetStatus(bool.Parse(_divideString[7]));
-                    _listOfAccounts.Add(_mySavingAccount);
+                    _mySavingAccount = new SavingAccount(double.Parse(_divideString[6]),_divideString[1],_divideString[3],_divideString[5],_divideString[4],_divideString[2],double.Parse(_divideString[8]),double.Parse(_divideString[9]),int.Parse(_divideString[10])); //Create new account with the data from the file
+                    _mySavingAccount.SetStatus(bool.Parse(_divideString[7]));// sets status of the account
+                    _listOfAccounts.Add(_mySavingAccount); // Add the account to the main list of accounts
                     break;
                 }
             }
-            else if(_divideString[0]== "Expense" || _divideString[0] == "Deposit")
+            else if(_divideString[0]== "Expense" || _divideString[0] == "Deposit") // Creating movements from lines that begin with movement type and adding to the account ID
             {
                 switch(_divideString[0])
                 {
                     case "Expense":
-                    _listOfAccounts[int.Parse(_divideString[6])].AddExpense(double.Parse(_divideString[1]),_divideString[2],_divideString[3],_divideString[4],int.Parse(_divideString[6]),_divideString[5]);
+                    _listOfAccounts[int.Parse(_divideString[6])].AddExpense(double.Parse(_divideString[1]),_divideString[2],_divideString[3],_divideString[4],int.Parse(_divideString[6]),_divideString[5]); // Adding expense to the account with the matching ID
                     break;
                     case "Deposit":
-                    _listOfAccounts[int.Parse(_divideString[6])].AddDeposit(double.Parse(_divideString[1]),_divideString[2],_divideString[3],_divideString[4],int.Parse(_divideString[6]),_divideString[5]);
+                    _listOfAccounts[int.Parse(_divideString[6])].AddDeposit(double.Parse(_divideString[1]),_divideString[2],_divideString[3],_divideString[4],int.Parse(_divideString[6]),_divideString[5]); // Adding deposit to the account with the matching ID
                     break;
                 }
                 
@@ -268,7 +271,7 @@ class ExpenseTracker
         _mySavingAccount = new SavingAccount(_initialBalanceMain,_accountNumberMain,_cutOffDateMain,_accountOwnerMain,_descriptionMain,_bankMain,_interestRateMain,_monthlyDepositMain,_periodsPerYearMain);
         _listOfAccounts.Add(_mySavingAccount); 
     }
-    private void SimpleSummary()
+    private void SimpleSummary() // Simple summary of accounts
     {
         _counter = 1;
         foreach(Account account in _listOfAccounts)
@@ -280,12 +283,7 @@ class ExpenseTracker
         }
     }
 
-    private List<Account> Get_listOfAccounts()
-    {
-        return _listOfAccounts;
-    }
-
-    private void RecordExpense(List<Account> _listOfAccounts)
+    private void RecordExpense() // Recording a new expense
     {
         Console.WriteLine("From your accounts: ");
         SimpleSummary();
@@ -307,7 +305,7 @@ class ExpenseTracker
         _movementCompanyMain = Console.ReadLine();
         _listOfAccounts[_listIndex].AddExpense(_movementAmountMain,_movementDateMain,_movementNameMain,_movementDescription,_listIndex,_movementCompanyMain);
     }
-    private void RecordDeposit()
+    private void RecordDeposit() // Recording a new deposit
     {
         Console.WriteLine("From your accounts: ");
         SimpleSummary();
@@ -329,7 +327,7 @@ class ExpenseTracker
         _movementOriginMain = Console.ReadLine();
         _listOfAccounts[_listIndex].AddDeposit(_movementAmountMain,_movementDateMain,_movementNameMain,_movementDescription,_listIndex,_movementOriginMain);
     }
-    public void SaveFile()
+    public void SaveFile()//Saving data to a new file
     {
         _conversionList.Clear();
         ConvertData();
@@ -337,17 +335,17 @@ class ExpenseTracker
         _fileManagement.SetFileName(Console.ReadLine());
         _fileManagement.SaveFile(_conversionList);
     }
-    public void ConvertData()
+    public void ConvertData() // Converting profile, accounts and movements to strings and lines in a new file
     {
-        _tempStringToSave = _userProfile.GetUsername() + "*" + _userProfile.GetAddress() + "*" + _userProfile.GetPhone();
-        _conversionList.Add(_tempStringToSave);
-        foreach(Account account in _listOfAccounts)
+        _tempStringToSave = _userProfile.GetUsername() + "*" + _userProfile.GetAddress() + "*" + _userProfile.GetPhone(); //Converting Profile to a string
+        _conversionList.Add(_tempStringToSave); //Adding conversion to the list that will be converted to a file
+        foreach(Account account in _listOfAccounts) //all the accounts passes through this proccess to create new strings
         {
             _tempListString.Clear();
-            account.GenerateSaveString();
-            _conversionList.Add(account.GetSaveString());
-            _tempListString = account.GetOutputMovements();
-            foreach(string movement in _tempListString){_conversionList.Add(movement);}
+            account.GenerateSaveString(); //Generate strings of the account
+            _conversionList.Add(account.GetSaveString()); // Adding Account information to the conversion list
+            _tempListString = account.GetOutputMovements(); // Creating a temporal list will all the movements from the account
+            foreach(string movement in _tempListString){_conversionList.Add(movement);} // Creating strings and passing to the conversion list for each movement
         }
     }
 }
