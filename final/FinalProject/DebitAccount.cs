@@ -16,6 +16,8 @@ class DebitAccount:Account
         SetType("Debit");
     }
     //Method to print Account summary for debit accounts
+    public override double CalculateInterest(){throw new NotImplementedException();}
+    public override double CalculateEarnings(int years){throw new NotImplementedException();}
     public override void AccountSummary()
     {
         if(GetStatus()){SetReadeableStatus("Active");}

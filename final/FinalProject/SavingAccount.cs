@@ -25,7 +25,8 @@ class SavingAccount:Account
         SetType("Saving");
     }
     //Method to calculate future earnings
-    public double CalculateEarnings(int years)
+    public override double CalculateInterest(){throw new NotImplementedException();}
+    public override double CalculateEarnings(int years)
     {
         _futureEarnings = GetBalance();
         for(int i=0; i<(years * _periodsPerYear); i++)

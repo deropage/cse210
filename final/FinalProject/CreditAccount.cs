@@ -23,7 +23,8 @@ class CreditAccount :Account
         SetAvailableCredit(_totalCreditAmount - balance);
     }
     //Method to calculate interest for each month
-    public double CalculateInterest()
+     public override double CalculateEarnings(int years){throw new NotImplementedException();}
+    public override double CalculateInterest()
     {
         _paymentInterest = GetBalance() * _interestRate;
         return _paymentInterest;

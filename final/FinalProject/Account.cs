@@ -46,6 +46,8 @@ public abstract class Account
     public abstract void AddExpense(double amount, string date, string name, string description,int id,string company);
     public abstract void AddDeposit(double amount, string date, string name, string description,int id,string origin);
     public abstract string GenerateSaveString();
+    public abstract double CalculateInterest();
+    public abstract double CalculateEarnings(int years);
 
     public void GetMovementsSummary() // Get total list of movements and print to console
     {

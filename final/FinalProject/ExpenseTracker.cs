@@ -79,7 +79,7 @@ class ExpenseTracker
             {
                 // App Menu, once the user created or loaded its profile we have the program for accounts and movements
                 Console.Clear();
-                Console.WriteLine($"Hello {_userProfile.GetUsername()}!\nWelcome to your expense tracker!\nMenu Options:\n 1. Create New Account\n 2. List your accounts\n 3. Accounts summary\n 4. Record New Expense \n 5. Record New Deposit \n 6. Save Data \n 7. Quit\nSelect a choice from the Menu: ");
+                Console.WriteLine($"Hello {_userProfile.GetUsername()}!\nWelcome to your expense tracker!\nMenu Options:\n 1. Create New Account\n 2. List your accounts\n 3. Accounts Opeations\n 4. Record New Expense \n 5. Record New Deposit \n 6. Save Data \n 7. Quit\nSelect a choice from the Menu: ");
                 _getFromConsole = Console.ReadLine();
                 _decisionMenu = int.Parse(_getFromConsole);
                 switch(_decisionMenu)
@@ -116,29 +116,50 @@ class ExpenseTracker
                     _getFromConsole = Console.ReadLine();
                     break;
 
-                    case 3: //Accounts summary
-                    Console.WriteLine("1. Simple Summary\n2. Detailed Summary"); // Decide what kind of summary the user needs
+                    case 3: //Accounts operations
+                    Console.Clear();
+                    SimpleSummary();
+                    Console.WriteLine("Select your account: ");
+                    _getFromConsole = Console.ReadLine();
+                    _listIndex =int.Parse(_getFromConsole) - 1;
+                    Console.WriteLine("1. Account Summary\n2. Movement Summary"); // Decide what kind of summary the user needs
+                    if(_listOfAccounts[_listIndex].GetAType() == "Credit"){Console.WriteLine("3. Calculate interest Payment");}
+                    else if(_listOfAccounts[_listIndex].GetAType() == "Saving"){Console.WriteLine("3. Calculate future earnigs");}
                     _getFromConsole = Console.ReadLine();
                     _decisionMenu = int.Parse(_getFromConsole);
                     switch (_decisionMenu)
                     {
                         case 1: // Simple Summary
-                        foreach (Account account in _listOfAccounts) 
-                        {
-                            Console.WriteLine("*******************************************");
-                            account.AccountSummary();
-                            account.GetBalanceSummary();
-                        }
+                        _userProfile.ProfileSummary();
+                        Console.WriteLine("*******************************************");
+                        _listOfAccounts[_listIndex].AccountSummary();
+                        _listOfAccounts[_listIndex].GetBalanceSummary();
                         break;
 
                         case 2: // Detailed summary
-                        foreach (Account account in _listOfAccounts) 
+                        _userProfile.ProfileSummary();
+                        Console.WriteLine("*******************************************");
+                        _listOfAccounts[_listIndex].AccountSummary();
+                        _listOfAccounts[_listIndex].GetBalanceSummary();
+                        _listOfAccounts[_listIndex].GetMovementsSummary();
+                        
+                        break;
+
+                        case 3: //Operatios for Credit and Savings
+                        _userProfile.ProfileSummary();
+                        Console.WriteLine("*******************************************");
+                        _listOfAccounts[_listIndex].AccountSummary();
+                        if(_listOfAccounts[_listIndex].GetAType() == "Credit")
                         {
-                            Console.WriteLine("*******************************************");
-                            account.AccountSummary();
-                            account.GetBalanceSummary();
-                            account.GetMovementsSummary();
+                            Console.WriteLine($"Your interest Payment is: {_listOfAccounts[_listIndex].CalculateInterest()}");
                         }
+                        else if(_listOfAccounts[_listIndex].GetAType() == "Saving")
+                        {
+                            Console.WriteLine("How Many years do you want to calculate? ");
+                            _getFromConsole = Console.ReadLine();
+                            Console.WriteLine($"Your balance in {_getFromConsole} is: {_listOfAccounts[_listIndex].CalculateEarnings(int.Parse(_getFromConsole))}");
+                        }
+
                         break;
                     }
                     Console.WriteLine("Press Enter to continue..."); //Keeps the information on screen until the user decides with enter
@@ -217,11 +238,9 @@ class ExpenseTracker
                     _listOfAccounts[int.Parse(_divideString[6])].AddDeposit(double.Parse(_divideString[1]),_divideString[2],_divideString[3],_divideString[4],int.Parse(_divideString[6]),_divideString[5]); // Adding deposit to the account with the matching ID
                     break;
                 }
-                
             }
         }
     }
-
     private void CreateAccount()//Core method to create accounts
     {
         Console.WriteLine("Enter the name of the Bank: ");
